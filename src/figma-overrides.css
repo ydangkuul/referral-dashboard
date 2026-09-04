@@ -1,0 +1,50 @@
+/* Main navigation — aligned with Figma node 790:2007. */
+.bottom-bar {
+  height: 70px;
+  bottom: 0;
+  padding: 7.825px 22px 4px;
+  align-items: flex-start;
+  border-top: 0.625px solid #dedede;
+}
+
+.nav-item {
+  width: 62px;
+  height: 48px;
+  flex: none;
+  padding: 3.625px 0.625px;
+  border: 0.625px solid transparent;
+  border-radius: 8px;
+  color: #0d2c52;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 15px;
+}
+
+.nav-item svg {
+  width: 25px;
+  height: 22.754px;
+}
+
+.nav-item.selected,
+.nav-item.selected:hover {
+  color: #0d3c7d;
+  background: #daf2ff;
+  border-color: #dfdfdf;
+}
+
+.nav-item.selected:focus-visible {
+  outline: none;
+}
+
+/* “Check in” — Figma text node 790:1971. */
+.checkin-card strong {
+  font-family: "Be Vietnam Pro", system-ui, sans-serif;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 21px;
+  letter-spacing: 0;
+  color: #1c1d1b;
+  white-space: nowrap;
+}
