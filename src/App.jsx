@@ -4,6 +4,9 @@ import {
   ChevronDown, Clock3, House, UsersRound, Goal as GoalIcon,
   CircleCheck, X, Play, Pause,
 } from 'lucide-react'
+import PointsFlow from './PointsFlow.jsx'
+import CheckInFlow from './CheckInFlow.jsx'
+import IntroFlow from './IntroFlow.jsx'
 
 // Brand bank icon (from design handoff) — recolored to currentColor so it
 // tracks the theme token instead of the hardcoded #0D3C7D in the source file.
@@ -56,6 +59,14 @@ const BASE_NETWORK = { merchants: 40, influencers: 60 }
 const ACTION_MULTIPLIER = 2
 
 const GUIDE_TOPICS = {
+  estimate: {
+    title: 'Estimated monthly reward guide',
+    steps: [
+      { label: 'STEP 1', heading: 'Add merchants you know', number: '12 merchants', detail: 'Use the stepper to estimate how many merchants you can refer.' },
+      { label: 'STEP 2', heading: 'See your reward estimate', number: '18,000 pt', detail: 'Each merchant updates your estimated referral points instantly.' },
+      { label: 'STEP 3', heading: 'Claim your first reward', number: '+1,000 pt', detail: 'Continue the setup flow to claim your first milestone reward.' },
+    ],
+  },
   points: {
     title: 'Available points guide',
     steps: [
@@ -179,10 +190,15 @@ export default function App() {
   const [goalAmount, setGoalAmount] = useState(30)
   const [months, setMonths] = useState(12)
   const [selectedNav, setSelectedNav] = useState('Home')
-  const [checkinOpen, setCheckinOpen] = useState(false)
+  const [launchMode, setLaunchMode] = useState('first')
+  const [redCommentMode, setRedCommentMode] = useState(false)
+  const [redComments, setRedComments] = useState([])
+  const [checkinFlowOpen, setCheckinFlowOpen] = useState(false)
+  const [checkinStage, setCheckinStage] = useState('checkin')
   const [activitiesOpen, setActivitiesOpen] = useState(false)
-  const [networkStatsOpen, setNetworkStatsOpen] = useState(true)
+  const [activityPreviewOpen, setActivityPreviewOpen] = useState(false)
   const [saved, setSaved] = useState(false)
+  const [introCompleted, setIntroCompleted] = useState(false)
 
   const sliderPct = ((goalAmount - MIN_GOAL) / (MAX_GOAL - MIN_GOAL)) * 100
 
@@ -217,10 +233,68 @@ export default function App() {
     setTimeout(() => setSaved(false), 1800)
   }
 
+  function handlePhoneCommentClick(e) {
+    if (!redCommentMode) return
+    if (e.target.closest('.red-comment-note')) return
+
+    e.preventDefault()
+    e.stopPropagation()
+
+    const rect = e.currentTarget.getBoundingClientRect()
+    const x = Math.min(Math.max(e.clientX - rect.left, 8), 208)
+    const y = Math.min(Math.max(e.clientY - rect.top, 8), 780)
+    setRedComments((items) => [...items, { id: Date.now(), x, y, text: '' }])
+  }
+
+  function moveRedComment(id, x, y) {
+    const nextX = Math.min(Math.max(x, 8), 208)
+    const nextY = Math.min(Math.max(y, 8), 780)
+    setRedComments((items) => items.map((item) => (
+      item.id === id ? { ...item, x: nextX, y: nextY } : item
+    )))
+  }
+
+  function handleCommentDragStart(e, comment) {
+    e.preventDefault()
+    e.stopPropagation()
+
+    const phone = e.currentTarget.closest('.phone')
+    if (!phone) return
+
+    const rect = phone.getBoundingClientRect()
+    const offsetX = e.clientX - rect.left - comment.x
+    const offsetY = e.clientY - rect.top - comment.y
+    const pointerId = e.pointerId
+
+    e.currentTarget.setPointerCapture(pointerId)
+
+    function handlePointerMove(moveEvent) {
+      moveRedComment(comment.id, moveEvent.clientX - rect.left - offsetX, moveEvent.clientY - rect.top - offsetY)
+    }
+
+    function handlePointerUp() {
+      e.currentTarget.releasePointerCapture(pointerId)
+      e.currentTarget.removeEventListener('pointermove', handlePointerMove)
+      e.currentTarget.removeEventListener('pointerup', handlePointerUp)
+      e.currentTarget.removeEventListener('pointercancel', handlePointerUp)
+    }
+
+    e.currentTarget.addEventListener('pointermove', handlePointerMove)
+    e.currentTarget.addEventListener('pointerup', handlePointerUp)
+    e.currentTarget.addEventListener('pointercancel', handlePointerUp)
+  }
+
   return (
     <main className="stage">
       <div className="viewport" style={{ width: 390, height: 844 }}>
-        <section className="phone" style={{ transform: 'scale(1)', height: 844 }} aria-label="Referral dashboard prototype">
+        <section
+          className="phone"
+          data-launch-mode={launchMode}
+          data-red-comment-mode={redCommentMode}
+          style={{ transform: 'scale(1)', height: 844 }}
+          aria-label="Referral dashboard prototype"
+          onClickCapture={handlePhoneCommentClick}
+        >
           <div className="status-bar">
             <span>9:41</span>
             <div>
@@ -230,6 +304,23 @@ export default function App() {
             </div>
           </div>
 
+          {launchMode === 'first' && !introCompleted ? (
+            <IntroFlow
+              onComplete={() => setIntroCompleted(true)}
+              onOpenEstimateGuide={() => setGuideTopic('estimate')}
+            />
+          ) : checkinFlowOpen ? (
+            <CheckInFlow
+              launchMode={launchMode}
+              onStageChange={setCheckinStage}
+              onClose={() => {
+                setCheckinFlowOpen(false)
+                setCheckinStage('checkin')
+              }}
+            />
+          ) : selectedNav === 'Points' ? (
+            <PointsFlow BankIcon={BankIcon} onOpenPointsGuide={() => setGuideTopic('points')} />
+          ) : (
           <div className="dashboard-scroll" tabIndex={0} aria-label="Dashboard content">
             <div className="dashboard-content">
               <div className="app-header">
@@ -317,6 +408,12 @@ export default function App() {
                         </button>
                         <strong>Monthly income goal</strong>
                         <p>Set a target and timeline — we estimate the daily actions needed to hit it.</p>
+                        <button
+                          className="video-link"
+                          onClick={() => { setGoalInfoOpen(false); setGuideTopic('goal') }}
+                        >
+                          <Play size={14} /> Watch guide
+                        </button>
                       </div>
                     </>
                   )}
@@ -353,28 +450,20 @@ export default function App() {
                   ))}
                 </div>
 
-                <button
-                  className={`goal-network-stats card ${networkStatsOpen ? '' : 'collapsed'}`}
-                  onClick={() => setNetworkStatsOpen((v) => !v)}
-                  aria-expanded={networkStatsOpen}
-                >
-                  {networkStatsOpen ? (
-                    <>
-                      <span className="stat"><strong>{networkReach.merchants}</strong><span>Merchants</span></span>
-                      <span className="divider" aria-hidden="true" />
-                      <span className="stat"><strong>{networkReach.influencers}</strong><span>Influencers</span></span>
-                    </>
-                  ) : (
-                    <span className="goal-network-stats-label">Network Reach</span>
-                  )}
-                  <ChevronDown
-                    size={20}
-                    className="goal-network-stats-chevron"
-                    style={{ transform: networkStatsOpen ? 'rotate(180deg)' : 'none' }}
-                  />
-                </button>
+                <section className="goal-network-stats card" aria-label="Network Reach">
+                  <span className="goal-network-stats-values">
+                    <span className="stat"><strong>{networkReach.merchants}</strong><span>Merchants</span></span>
+                    <span className="divider" aria-hidden="true" />
+                    <span className="stat"><strong>{networkReach.influencers}</strong><span>Influencers</span></span>
+                  </span>
+                </section>
 
-                <section className="sheet-preview" aria-live="polite" aria-atomic="true" style={{ position: 'relative' }}>
+                <section
+                  className={`sheet-preview ${activityPreviewOpen ? '' : 'collapsed'}`}
+                  aria-live="polite"
+                  aria-atomic="true"
+                  style={{ position: 'relative' }}
+                >
                   <div className="preview-heading">
                     <span className="activities-day-label">
                       Activities / day
@@ -388,7 +477,17 @@ export default function App() {
                         <Info size={16} />
                       </button>
                     </span>
-                    <span>{actions.total} actions</span>
+                    <span className="preview-actions">
+                      <span className="preview-total-pill">{actions.total} actions</span>
+                    </span>
+                    <button
+                      className="preview-toggle"
+                      aria-label={activityPreviewOpen ? 'Hide activities per day' : 'Show activities per day'}
+                      aria-expanded={activityPreviewOpen}
+                      onClick={() => setActivityPreviewOpen((v) => !v)}
+                    >
+                      <ChevronDown size={20} style={{ transform: activityPreviewOpen ? 'rotate(180deg)' : 'none' }} />
+                    </button>
                   </div>
                   {activitiesInfoOpen && (
                     <>
@@ -408,12 +507,14 @@ export default function App() {
                       </div>
                     </>
                   )}
-                  <div className="preview-counts">
-                    <div><strong>{actions.invites}</strong><span>Invites</span></div>
-                    <div><strong>{actions.remind}</strong><span>Remind</span></div>
-                    <div><strong>{actions.ppp}</strong><span>PPP</span></div>
-                    <div><strong>{actions.sharp}</strong><span>SHARP</span></div>
-                  </div>
+                  {activityPreviewOpen && (
+                    <div className="preview-counts">
+                      <div><strong>{actions.invites}</strong><span>Invites</span></div>
+                      <div><strong>{actions.remind}</strong><span>Remind</span></div>
+                      <div><strong>{actions.ppp}</strong><span>PPP</span></div>
+                      <div><strong>{actions.sharp}</strong><span>SHARP</span></div>
+                    </div>
+                  )}
                 </section>
 
                 <button className="sheet-save" onClick={handleSave}>
@@ -421,16 +522,16 @@ export default function App() {
                 </button>
               </section>
 
-              <button className="checkin-card card" onClick={() => setCheckinOpen((v) => !v)} aria-expanded={checkinOpen}>
+              <button
+                className="checkin-card card"
+                onClick={() => {
+                  setCheckinStage('checkin')
+                  setCheckinFlowOpen(true)
+                }}
+              >
                 <CalendarCheck size={25} />
                 <span><strong>Check in</strong><small>Keep your daily streak going</small></span>
-                <ChevronDown size={22} style={{ transform: checkinOpen ? 'rotate(180deg)' : 'none' }} />
               </button>
-              {checkinOpen && (
-                <div className="card" style={{ margin: '0 11px 10px', padding: '14px 16px', fontSize: 14, color: 'var(--color-text)' }}>
-                  Daily streak: 3 days. Check in today to keep it going and earn bonus points.
-                </div>
-              )}
 
               <button className="activities card" onClick={() => setActivitiesOpen((v) => !v)} aria-expanded={activitiesOpen}>
                 <Clock3 size={26} strokeWidth={1.5} />
@@ -444,7 +545,9 @@ export default function App() {
               )}
             </div>
           </div>
+          )}
 
+          {!(checkinFlowOpen && checkinStage === 'success') && !(launchMode === 'first' && !introCompleted) && (
           <nav className="bottom-bar" aria-label="Main navigation">
             {[
               { key: 'Home', icon: House },
@@ -463,7 +566,83 @@ export default function App() {
               </button>
             ))}
           </nav>
+          )}
+
+          <div className="red-comment-layer" aria-label="Red ink comments">
+            {redComments.map((comment) => (
+              <label
+                key={comment.id}
+                className="red-comment-note"
+                style={{ left: comment.x, top: comment.y }}
+              >
+                <span className="sr-only">Comment</span>
+                <span
+                  className="red-comment-drag"
+                  role="button"
+                  tabIndex={0}
+                  aria-label="Move comment"
+                  onPointerDown={(e) => handleCommentDragStart(e, comment)}
+                />
+                <textarea
+                  value={comment.text}
+                  autoFocus
+                  placeholder="Comment"
+                  onChange={(e) => {
+                    const text = e.target.value
+                    setRedComments((items) => items.map((item) => (
+                      item.id === comment.id ? { ...item, text } : item
+                    )))
+                  }}
+                />
+                <button
+                  type="button"
+                  aria-label="Remove comment"
+                  onClick={() => setRedComments((items) => items.filter((item) => item.id !== comment.id))}
+                >
+                  x
+                </button>
+              </label>
+            ))}
+          </div>
         </section>
+      </div>
+
+      <div className="launch-mode-controls" aria-label="Launch mode">
+        <button
+          type="button"
+          className="start-app-button"
+          onClick={() => {
+            setIntroCompleted(false)
+            setSelectedNav('Home')
+            setCheckinFlowOpen(false)
+          }}
+        >
+          start app
+        </button>
+        {[
+          { key: 'first', label: 'first launch' },
+          { key: 'returning', label: '>= second times launch' },
+        ].map(({ key, label }) => (
+          <button
+            key={key}
+            type="button"
+            aria-pressed={launchMode === key}
+            onClick={() => {
+              setLaunchMode(key)
+              setIntroCompleted(false)
+            }}
+          >
+            {label}
+          </button>
+        ))}
+        <button
+          type="button"
+          className="red-comment-mode-button"
+          aria-pressed={redCommentMode}
+          onClick={() => setRedCommentMode((v) => !v)}
+        >
+          red comment ink
+        </button>
       </div>
 
       {guideTopic && <GuideDialog topic={guideTopic} onClose={() => setGuideTopic(null)} />}

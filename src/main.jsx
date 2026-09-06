@@ -3,6 +3,8 @@ import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
 import './styles.css'
 import './figma-overrides.css'
+import './checkin.css'
+import './intro.css'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

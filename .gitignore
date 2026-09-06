@@ -1,5 +1,10 @@
 node_modules/
 dist/
+.npm-cache/
+.claude/
+.omc/
+**/.omc/
+docs/superpowers/
 
 .DS_Store
 *.log

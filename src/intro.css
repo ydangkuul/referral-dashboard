@@ -1,0 +1,915 @@
+.intro-screen {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #fff;
+  color: #1c1d1b;
+  font-family: 'Be Vietnam Pro', system-ui, sans-serif;
+}
+
+.intro-screen > .status-bar {
+  position: relative;
+  z-index: 20;
+  background: #fff;
+}
+
+/* Scene 1 */
+
+.intro-welcome-title {
+  position: absolute;
+  left: 50%;
+  top: 96px;
+  width: 342px;
+  margin: 0;
+  transform: translateX(-50%);
+  color: #0d3c7d;
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 38px;
+  letter-spacing: -0.89px;
+  text-align: center;
+}
+
+.intro-countdown-badge {
+  position: absolute;
+  left: 254px;
+  top: 232px;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  align-items: center;
+  width: 111px;
+  height: 60px;
+  padding: 6px 8px 6px 6px;
+  background-image: url('/images/countdown-badge.png');
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.intro-countdown-badge .countdown-number {
+  position: relative;
+  z-index: 1;
+  width: 48px;
+  color: #dfdfdf;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+}
+
+.intro-countdown-badge .countdown-label {
+  margin-left: 7px;
+  color: #dfdfdf;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.intro-countdown-badge .countdown-number,
+.intro-countdown-badge .countdown-label {
+  transform: translateX(2px);
+}
+
+.intro-welcome-container {
+  position: absolute;
+  left: 50%;
+  top: 350px;
+  width: 358px;
+  height: 478px;
+  overflow: visible;
+  transform: translateX(-50%);
+}
+
+.intro-bg-image {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.intro-character-image {
+  position: absolute;
+  left: 50%;
+  top: -101px;
+  z-index: 2;
+  width: 385px;
+  height: 595px;
+  transform: translateX(-50%);
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* Shared Figma sequence chrome */
+
+.intro-back-button {
+  position: absolute;
+  left: 24px;
+  top: 52px;
+  z-index: 21;
+  display: grid;
+  width: 24px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #0d3c7d;
+  cursor: pointer;
+  place-items: center;
+}
+
+.intro-sequence-title {
+  position: absolute;
+  left: 24px;
+  top: 97px;
+  z-index: 5;
+  width: 342px;
+  margin: 0;
+  color: #0d3c7d;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 38px;
+  letter-spacing: -0.4px;
+  text-align: center;
+}
+
+.intro-title-info {
+  position: absolute;
+  left: 334px;
+  top: 103px;
+  z-index: 6;
+  display: grid;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #0d3c7d;
+  cursor: pointer;
+  place-items: center;
+}
+
+.intro-pointing-hero {
+  position: absolute;
+  left: 11px;
+  top: 192px;
+  z-index: 5;
+  width: 369px;
+  height: 255px;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.intro-pointing-hero img {
+  position: absolute;
+  left: -18.04%;
+  top: -4.75%;
+  width: 140.77%;
+  height: 143.05%;
+  max-width: none;
+}
+
+.intro-sequence-footer {
+  position: absolute;
+  left: 24px;
+  top: 739px;
+  z-index: 12;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 342px;
+  height: 56px;
+  padding: 0 24px;
+  border: 0;
+  border-radius: 14px;
+  background: #0d3c7d;
+  color: #fff;
+  font: 700 16px/20px 'Be Vietnam Pro', system-ui, sans-serif;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+}
+
+.intro-sequence-footer:hover {
+  background: #103769;
+}
+
+/* Estimate */
+
+.intro-estimate-card {
+  position: absolute;
+  left: 24px;
+  top: 414px;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 342px;
+  height: 146px;
+  border: 1px solid #e0e2e5;
+  border-radius: 24px;
+  background: #eaf4fc;
+}
+
+.intro-estimate-bubble {
+  top: 139px;
+  right: 24px;
+  z-index: 7;
+}
+
+.intro-estimate-bubble::before {
+  right: 13px;
+}
+
+.intro-estimate-card span {
+  color: #0073bf;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.intro-estimate-card strong {
+  margin-top: 3px;
+  color: #0073bf;
+  font-size: 42px;
+  font-weight: 800;
+  line-height: 53px;
+}
+
+.intro-estimate-card small {
+  color: #696b68;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 23px;
+}
+
+.intro-stepper-label {
+  position: absolute;
+  left: 24px;
+  top: 579px;
+  z-index: 4;
+  display: flex;
+  justify-content: space-between;
+  width: 342px;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.intro-stepper-label span {
+  color: #696b68;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.intro-stepper {
+  position: absolute;
+  left: 24px;
+  top: 617px;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 342px;
+  height: 67px;
+  padding: 8px;
+  border: 1px solid #e5e7eb;
+  border-radius: 100px;
+  background: #fff;
+}
+
+.intro-stepper button {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  padding: 0 0 5px;
+  border: 0;
+  border-radius: 20px;
+  background: #f3f4f6;
+  color: #1c1d1b;
+  font: 600 38px/38px 'Be Vietnam Pro', system-ui, sans-serif;
+  cursor: pointer;
+  place-items: center;
+}
+
+.intro-stepper button.primary {
+  padding-bottom: 0;
+  background: #0073bf;
+  color: #fff;
+}
+
+.intro-stepper output {
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 51px;
+}
+
+/* Reward screens */
+
+.intro-sequence-reward .intro-back-button,
+.intro-sequence-reward > .status-bar {
+  z-index: 20;
+}
+
+.intro-reward-points {
+  position: absolute;
+  z-index: 5;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.intro-reward-points img {
+  position: absolute;
+  max-width: none;
+}
+
+.intro-sequence-reward[data-points='1000'] .intro-reward-points {
+  left: 64px;
+  top: 100px;
+  width: 264px;
+  height: 162px;
+}
+
+.intro-sequence-reward[data-points='1000'] .intro-reward-points img {
+  left: -18.64%;
+  top: -108.24%;
+  width: 139.78%;
+  height: 494.25%;
+}
+
+.intro-sequence-reward[data-points='2000'] .intro-reward-points {
+  left: 44px;
+  top: 61px;
+  width: 289px;
+  height: 207px;
+}
+
+.intro-sequence-reward[data-points='2000'] .intro-reward-points img {
+  left: -7.59%;
+  top: -60.44%;
+  width: 123.42%;
+  height: 373.97%;
+}
+
+.intro-sequence-reward[data-points='3000'] .intro-reward-points {
+  left: 44px;
+  top: 85px;
+  width: 309px;
+  height: 187px;
+}
+
+.intro-sequence-reward[data-points='3000'] .intro-reward-points img {
+  left: -7.02%;
+  top: -82.65%;
+  width: 114.04%;
+  height: 408.29%;
+}
+
+.intro-sequence-reward[data-points='4000'] .intro-reward-points {
+  left: 49px;
+  top: 74px;
+  width: 286px;
+  height: 198px;
+}
+
+.intro-sequence-reward[data-points='4000'] .intro-reward-points img {
+  left: -5.39%;
+  top: -76.85%;
+  width: 115.82%;
+  height: 361.84%;
+}
+
+.intro-reward-confetti {
+  position: absolute;
+  left: 24px;
+  top: 296px;
+  z-index: 1;
+  width: 336px;
+  height: 503px;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.intro-reward-girl {
+  position: absolute;
+  left: 28px;
+  top: 262px;
+  z-index: 2;
+  width: 322px;
+  height: 483px;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.intro-sequence-reward[data-points='2000'] .intro-reward-girl {
+  top: 259px;
+}
+
+.intro-sequence-reward[data-points='3000'] .intro-reward-confetti {
+  top: 259px;
+}
+
+.intro-sequence-reward[data-points='3000'] .intro-reward-girl {
+  top: 256px;
+}
+
+.intro-sequence-reward[data-points='4000'] .intro-reward-confetti {
+  top: 270px;
+}
+
+.intro-sequence-reward[data-points='4000'] .intro-reward-girl {
+  top: 259px;
+}
+
+.intro-reward-gradient {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 3;
+  height: 168px;
+  background: linear-gradient(to bottom, rgb(255 255 255 / 0%), #fcfdfe 31%);
+  pointer-events: none;
+}
+
+.intro-sequence-reward[data-points='2000'] .intro-reward-gradient,
+.intro-sequence-reward[data-points='3000'] .intro-reward-gradient {
+  height: 254px;
+}
+
+.intro-sequence-reward[data-points='4000'] .intro-reward-gradient {
+  height: 189px;
+}
+
+.intro-home-indicator {
+  position: absolute;
+  left: 129px;
+  top: 829px;
+  z-index: 8;
+  width: 132px;
+  height: 5px;
+  border-radius: 999px;
+  background: #0d3c7d;
+  opacity: 0.4;
+}
+
+/* Avatar */
+
+.avatar-screen .intro-pointing-hero {
+  top: 193px;
+}
+
+.intro-avatar-card {
+  position: absolute;
+  left: 24px;
+  top: 418px;
+  z-index: 4;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 342px;
+  height: 188px;
+  overflow: hidden;
+  border: 1px solid #e0e2e5;
+  border-radius: 24px;
+  background: #fff;
+}
+
+.intro-avatar-choice {
+  position: relative;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #1c1d1b;
+  cursor: pointer;
+}
+
+.intro-avatar-choice .intro-radio {
+  position: absolute;
+  left: 28px;
+  top: 22px;
+  display: grid;
+  width: 36px;
+  height: 36px;
+  border: 2px solid #e0e2e5;
+  border-radius: 50%;
+  background: #fff;
+  place-items: center;
+}
+
+.intro-avatar-choice.selected .intro-radio {
+  border-color: #0073bf;
+}
+
+.intro-avatar-choice.selected .intro-radio span {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #68c238;
+}
+
+.intro-avatar-choice strong {
+  position: absolute;
+  left: 76px;
+  top: 28px;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 23px;
+}
+
+.intro-avatar-image {
+  position: absolute;
+  left: 33px;
+  top: 68px;
+  width: 104px;
+  height: 104px;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.intro-avatar-image img.female {
+  width: 104px;
+  height: 118px;
+  object-fit: cover;
+  object-position: center 8%;
+}
+
+.intro-avatar-image img.male {
+  position: absolute;
+  left: -149px;
+  top: -10px;
+  width: 266px;
+  height: 124px;
+  max-width: none;
+}
+
+.intro-name-input {
+  position: absolute;
+  left: 24px;
+  top: 629px;
+  z-index: 4;
+  width: 342px;
+  height: 56px;
+  padding: 0 16px;
+  border: 1px solid #e0e2e5;
+  border-radius: 16px;
+  background: #fff;
+  color: #1c1d1b;
+  font: 600 16px/20px 'Be Vietnam Pro', system-ui, sans-serif;
+  outline: none;
+}
+
+.intro-name-input::placeholder {
+  color: #696b68;
+}
+
+.intro-name-input:focus {
+  border-color: #0073bf;
+  box-shadow: 0 0 0 2px rgb(0 115 191 / 12%);
+}
+
+/* Upload */
+
+.upload-screen .intro-sequence-title {
+  top: 95px;
+}
+
+.upload-screen .intro-pointing-hero {
+  top: 190px;
+}
+
+.intro-upload-card {
+  position: absolute;
+  left: 24px;
+  top: 413px;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 342px;
+  height: 271px;
+  border: 1px solid #e0e2e5;
+  border-radius: 24px;
+  background: #eaf4fc;
+}
+
+.intro-camera-circle {
+  display: grid;
+  width: 120px;
+  height: 120px;
+  margin-top: 17px;
+  border-radius: 50%;
+  background: #fff;
+  color: #0073bf;
+  place-items: center;
+}
+
+.intro-upload-card > strong {
+  max-width: 290px;
+  margin-top: 20px;
+  overflow: hidden;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.intro-upload-card > button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  width: 195px;
+  height: 44px;
+  margin-top: 19px;
+  border: 0;
+  border-radius: 120px;
+  background: #0073bf;
+  color: #fff;
+  font: 700 16px/20px 'Be Vietnam Pro', system-ui, sans-serif;
+  cursor: pointer;
+}
+
+/* Invite */
+
+.invite-screen .intro-pointing-hero.compact {
+  left: 30px;
+  top: 91px;
+  width: 330px;
+  height: 228px;
+}
+
+.intro-video-card {
+  position: absolute;
+  left: 24px;
+  top: 319px;
+  z-index: 4;
+  width: 342px;
+  height: 364px;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 24px;
+  background: #eaf4fc;
+  cursor: pointer;
+}
+
+.intro-video-card > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.intro-video-card > span {
+  position: absolute;
+  left: calc(50% + 9px);
+  top: 50%;
+  display: grid;
+  width: 72px;
+  height: 72px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: rgb(255 255 255 / 90%);
+  color: #0073bf;
+  place-items: center;
+}
+
+.intro-video-card > span.playing {
+  background: #0073bf;
+  color: #fff;
+}
+
+/* Invitation preview */
+
+.invitation-share-screen .intro-pointing-hero.compact {
+  left: 30px;
+  top: 115px;
+  z-index: 30;
+  width: 330px;
+  height: 228px;
+}
+
+.invitation-share-info {
+  position: absolute;
+  top: 52px;
+  right: 27px;
+  z-index: 21;
+  display: grid;
+  width: 24px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #0d3c7d;
+  place-items: center;
+}
+
+.invitation-ready-banner {
+  position: absolute;
+  left: 20px;
+  top: 322px;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 350px;
+  height: 48px;
+  padding: 0 25px;
+  border-radius: 12px;
+  background: #bfe0f5;
+  color: #0d2c52;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.invitation-ready-banner img {
+  width: 20px;
+  height: 20px;
+}
+
+.invitation-card {
+  position: absolute;
+  left: 20px;
+  top: 384px;
+  z-index: 6;
+  width: 350px;
+  height: 258px;
+  padding: 17px 19px;
+  border: 1px solid #dfdfdf;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 8%);
+}
+
+.invitation-card-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 24px;
+}
+
+.invitation-card-heading h1 {
+  margin: 0;
+  color: #1c1d1b;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 24px;
+}
+
+.invitation-card-heading button {
+  min-width: 116px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #0073bf;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.invitation-message-preview {
+  width: 310px;
+  height: 106px;
+  margin-top: 12px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #f7f8fb;
+}
+
+.invitation-message-preview p,
+.invitation-message-preview textarea {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 12px 14px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #373a36;
+  font: 400 14px/20px 'Be Vietnam Pro', system-ui, sans-serif;
+}
+
+.invitation-message-preview textarea {
+  resize: none;
+}
+
+.invitation-link-label {
+  display: block;
+  margin-top: 5px;
+  color: #696b68;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 18px;
+}
+
+.invitation-link-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 310px;
+  height: 52px;
+  margin-top: 4px;
+  padding: 0 11px;
+  border: 1px solid #dfdfdf;
+  border-radius: 8px;
+  background: #fdfbf7;
+}
+
+.invitation-link-row strong {
+  max-width: 200px;
+  overflow: hidden;
+  color: #1c1d1b;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.invitation-link-row button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 76px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: #0073bf;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+}
+
+.invitation-link-row button img {
+  width: 14px;
+  height: 14px;
+}
+
+.invitation-share-options {
+  position: absolute;
+  left: 20px;
+  top: 668px;
+  z-index: 6;
+  width: 350px;
+}
+
+.invitation-share-options h2 {
+  margin: 0 0 20px;
+  color: #1c1d1b;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.invitation-share-options > div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.invitation-share-options button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-width: 48px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #696b68;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.invitation-share-icon {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  place-items: center;
+}
+
+.invitation-share-icon img {
+  width: 22px;
+  height: 22px;
+}
+
+.invitation-share-icon.zalo {
+  background: #0073bf;
+}
+
+.invitation-share-icon.messenger {
+  background: #0d3c7d;
+}
+
+.invitation-share-icon.sms {
+  background: #73bf26;
+}
+
+.invitation-share-icon.email {
+  background: #d7a44c;
+}

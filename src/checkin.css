@@ -1,0 +1,391 @@
+/* Check-in Flow Styles */
+
+.checkin-flow-scroll {
+  position: absolute;
+  inset: 47px 0 70px;
+  overflow: hidden;
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+  background: var(--color-surface-page);
+  color: var(--color-ink);
+}
+
+.checkin-flow-scroll.success {
+  inset: 47px 0 0;
+  overflow: hidden;
+}
+
+.checkin-flow-header {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 0 27px;
+}
+
+.checkin-flow-header button {
+  position: absolute;
+  left: 27px;
+  background: transparent;
+  border: 0;
+  color: var(--color-primary);
+  padding: 4px;
+  display: grid;
+  place-items: center;
+}
+
+.checkin-flow-header h1 {
+  color: var(--color-primary);
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 28px;
+  margin: 0;
+  letter-spacing: 0;
+}
+
+.checkin-character {
+  position: absolute;
+  left: 53px;
+  top: 44px;
+  width: 282px;
+  height: 381px;
+  margin: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.checkin-character img {
+  position: absolute;
+  left: -13.59%;
+  top: -7.76%;
+  width: 135%;
+  height: 210.81%;
+  max-width: none;
+  object-fit: cover;
+}
+
+.checkin-info-bubble {
+  position: absolute;
+  left: 16px;
+  top: 355px;
+  width: 358px;
+  background: #696b68;
+  border-radius: 14px;
+  padding: 0;
+  margin: 0;
+  z-index: 2;
+}
+
+.checkin-info-bubble-inner {
+  background: white;
+  border-radius: 8px;
+  padding: 17px 16px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.12);
+}
+
+.checkin-info-bubble p {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 19px;
+  color: #373a36;
+}
+
+.checkin-card-main {
+  position: absolute;
+  left: 16px;
+  top: 461px;
+  width: 358px;
+  height: 233px;
+  background: #bfe0f5;
+  border-radius: 16px;
+  margin: 0;
+  padding: 18px;
+  box-shadow: 0px 8px 16px rgba(0, 115, 191, 0.1);
+  overflow: hidden;
+}
+
+.checkin-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.checkin-card-header h2 {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 26px;
+  color: var(--color-ink);
+  margin: 0;
+}
+
+.checkin-reward-badge {
+  background: #fbeed1;
+  color: var(--color-primary);
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+}
+
+.checkin-progress-text {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 20px;
+  color: #696b68;
+  margin: 0 0 12px;
+}
+
+.checkin-progress-track {
+  position: relative;
+  height: 58px;
+  width: 322px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+
+.checkin-day-item {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  top: 0;
+  z-index: 2;
+}
+
+.checkin-day-item:nth-child(1) {
+  left: 0;
+}
+
+.checkin-day-item:nth-child(2) {
+  left: 146px;
+}
+
+.checkin-day-item:nth-child(3) {
+  left: 292px;
+}
+
+.checkin-day-circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: white;
+  border: 1px solid #dedede;
+  display: grid;
+  place-items: center;
+}
+
+.checkin-day-circle.completed {
+  background: #0073bf;
+  border: 0;
+  color: white;
+}
+
+.checkin-day-item > span {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  color: #696b68;
+  width: 30px;
+  text-align: center;
+}
+
+.checkin-connector {
+  position: absolute;
+  width: 116px;
+  height: 4px;
+  top: 13px;
+  z-index: 1;
+  background-image: radial-gradient(circle, #0073bf 1.6px, transparent 1.8px);
+  background-repeat: repeat-x;
+  background-position: left center;
+  background-size: 7px 4px;
+}
+
+.checkin-connector-1 {
+  left: 30px;
+}
+
+.checkin-connector-2 {
+  left: 176px;
+}
+
+.checkin-primary-button {
+  background: var(--color-primary);
+  color: white;
+  border: 0;
+  border-radius: 12px;
+  width: 100%;
+  height: 52px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 20px;
+  cursor: pointer;
+  box-shadow: 0px 8px 8px rgba(0, 115, 191, 0.13);
+}
+
+.checkin-primary-button:hover {
+  background: var(--color-primary-hover);
+}
+
+/* Success Screen */
+
+.checkin-success-content {
+  position: absolute;
+  inset: 44px 0 0;
+  overflow: hidden;
+}
+
+.checkin-points-display {
+  position: absolute;
+  left: 50%;
+  top: 7px;
+  transform: translateX(-50%);
+  width: 258.82px;
+  height: 160.061px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkin-points-display img {
+  display: block;
+  width: 256.867px;
+  height: 156.841px;
+  object-fit: contain;
+  transform: rotate(-0.72deg);
+}
+
+.checkin-success-character {
+  position: absolute;
+  left: 28px;
+  top: 168px;
+  width: 322px;
+  height: 483px;
+  z-index: 1;
+}
+
+.checkin-confetti {
+  position: absolute;
+  left: -4px;
+  top: 11px;
+  width: 336px;
+  height: 503px;
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.checkin-character-img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 322px;
+  height: 483px;
+  object-fit: contain;
+  z-index: 2;
+}
+
+.checkin-gradient-overlay {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 390px;
+  height: 165px;
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.checkin-success-footer {
+  position: absolute;
+  left: 50%;
+  bottom: 23px;
+  transform: translateX(-50%);
+  width: 342px;
+  padding: 0;
+  z-index: 3;
+}
+
+.checkin-next-button {
+  background: transparent;
+  color: white;
+  border: 0;
+  border-radius: 12px;
+  width: 100%;
+  height: 56px;
+  padding: 0;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.checkin-next-button img {
+  display: block;
+  width: 342px;
+  height: 56px;
+  object-fit: contain;
+}
+
+.checkin-success-progress {
+  position: absolute;
+  left: 129px;
+  top: 782px;
+  width: 132px;
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(13, 60, 125, 0.4);
+}
+
+/* Returning User Success Screen */
+
+.checkin-flow-scroll.returning .checkin-success-footer {
+  bottom: 93px;
+}
+
+.reward-bottom-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background: white;
+  border-top: 0.625px solid #dedede;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 7.825px 22px 4px;
+  z-index: 4;
+}
+
+.reward-bottom-bar .nav-item {
+  width: 62px;
+  height: 48px;
+  background: transparent;
+  border: 0.625px solid transparent;
+  border-radius: 8px;
+  padding: 3px 0.625px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  color: var(--color-primary);
+}
+
+.reward-bottom-bar .nav-item.selected {
+  background: #daf2ff;
+}
+
+.reward-bottom-bar .nav-item span {
+  font-family: 'Be Vietnam Pro', system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 15px;
+  text-align: center;
+  color: var(--color-primary);
+}
