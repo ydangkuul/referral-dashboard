@@ -1,7 +1,7 @@
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   Signal, Wifi, BatteryFull, Landmark, UserRound, Info, CalendarCheck,
-  ChevronDown, Clock3, House, UsersRound, Goal as GoalIcon,
+  ChevronDown, ChevronLeft, Clock3, House, Search, UsersRound, Goal as GoalIcon,
   CircleCheck, X, Play, Pause,
 } from 'lucide-react'
 import PointsFlow from './PointsFlow.jsx'
@@ -89,6 +89,14 @@ const GUIDE_TOPICS = {
       { label: 'STEP 1', heading: 'Four action types', number: '4 types', detail: 'Invites, Remind, PPP and SHARP each earn points differently.' },
       { label: 'STEP 2', heading: 'Scales with your goal', number: '13 actions', detail: 'A bigger goal or shorter timeline raises the daily target.' },
       { label: 'STEP 3', heading: 'Spread them through the day', number: 'Daily', detail: 'Consistent small actions beat one big push at the end.' },
+    ],
+  },
+  contactSync: {
+    title: 'Contact sync guide',
+    steps: [
+      { label: 'STEP 1', heading: 'Your contacts stay protected', number: 'Private', detail: 'Contacts are used only to find people you already know on VietPay.' },
+      { label: 'STEP 2', heading: 'You stay in control', number: 'Your choice', detail: 'Nothing is sent automatically and syncing can be turned off any time.' },
+      { label: 'STEP 3', heading: 'Sync and earn points', number: '+1,000 pts', detail: 'Continue the contact sync flow to update your network and claim the reward.' },
     ],
   },
 }
@@ -180,6 +188,435 @@ function GuideDialog({ topic, onClose }) {
   )
 }
 
+const NETWORK_CONTACTS = [
+  { name: 'Tran Thi B', timing: 'Invited today', initial: 'T' },
+  { name: 'Le Van C', timing: 'Invited 2 days ago', initial: 'L' },
+  { name: 'Hoang Van E', timing: 'Invited 5 days ago', initial: 'H' },
+]
+
+const NETWORK_SYNC_METRICS = [
+  { label: 'Contacts', icon: '/images/network-contacts.svg', tone: 'contacts' },
+  { label: 'Invited', icon: '/images/network-invited.png', tone: 'invited' },
+  { label: 'Registered', icon: '/images/network-registered.png', tone: 'registered' },
+]
+
+function NetworkSyncOfferScreen({ onBack, onContinue }) {
+  return (
+    <div className="network-sync-offer" aria-label="Sync contacts to get points">
+      <header className="network-sync-offer-header">
+        <button type="button" aria-label="Back to My Network" onClick={onBack}><ChevronLeft size={22} /></button>
+        <Info size={18} aria-label="About contact syncing" />
+      </header>
+
+      <div className="network-sync-offer-hero" aria-hidden="true">
+        <img src="/images/intro-point-down.png" alt="" />
+      </div>
+
+      <section className="network-sync-offer-title">
+        <strong>Sync contacts</strong>
+        <span>to get points</span>
+      </section>
+
+      <section className="network-sync-offer-metrics" aria-label="Network totals">
+        {NETWORK_SYNC_METRICS.map((item) => (
+          <div className="network-sync-offer-metric" key={item.label}>
+            <span className={`network-sync-offer-metric-icon ${item.tone}`} aria-hidden="true">
+              <img src={item.icon} alt="" />
+            </span>
+            <span>{item.label}</span>
+            <strong>00</strong>
+          </div>
+        ))}
+      </section>
+
+      <button type="button" className="network-sync-offer-terms">Terms and Conditions</button>
+      <button type="button" className="network-sync-offer-skip" onClick={onBack}>Skip</button>
+      <button type="button" className="network-sync-offer-primary" onClick={onContinue}>Sync contacts get 1,000 pts</button>
+    </div>
+  )
+}
+
+const NETWORK_PRIVACY_POINTS = [
+  {
+    icon: '/images/network-consent-forbid.svg',
+    copy: 'No messages sent automatically without your confirmation',
+  },
+  {
+    icon: '/images/network-consent-lock.svg',
+    copy: 'Not stored for anything beyond finding friends',
+  },
+  {
+    icon: '/images/network-consent-check.svg',
+    copy: 'You can turn off syncing anytime',
+  },
+]
+
+function NetworkPrivacyConsentScreen({ onBack, onSkip, onContinue, onOpenGuide }) {
+  const [infoOpen, setInfoOpen] = useState(false)
+
+  return (
+    <div className="network-privacy-consent" aria-label="Contact sync privacy">
+      <header className="network-privacy-header">
+        <button type="button" aria-label="Back to sync contacts" onClick={onBack}><ChevronLeft size={22} /></button>
+        <button
+          type="button"
+          className="network-privacy-info"
+          aria-label="About contact privacy"
+          aria-expanded={infoOpen}
+          onClick={() => setInfoOpen((open) => !open)}
+        >
+          <Info size={18} />
+        </button>
+      </header>
+
+      {infoOpen && (
+        <InfoBubble
+          variant="network-privacy-tip"
+          title="Contact syncing"
+          onClose={() => setInfoOpen(false)}
+          onOpenGuide={() => {
+            setInfoOpen(false)
+            onOpenGuide()
+          }}
+        >
+          Your contacts are used only to find people you know. Nothing is sent without your confirmation.
+        </InfoBubble>
+      )}
+
+      <main className="network-privacy-content">
+        <span className="network-privacy-shield" aria-hidden="true">
+          <img src="/images/network-consent-shield.svg" alt="" />
+        </span>
+
+        <section className="network-privacy-copy">
+          <h1>Your contacts are protected</h1>
+          <p>Only used to find friends who already have VietPay. We never share or contact anyone without your consent.</p>
+        </section>
+
+        <section className="network-privacy-card" aria-label="Contact privacy details">
+          {NETWORK_PRIVACY_POINTS.map((item) => (
+            <div className="network-privacy-point" key={item.copy}>
+              <img src={item.icon} alt="" aria-hidden="true" />
+              <span>{item.copy}</span>
+            </div>
+          ))}
+        </section>
+
+        <div className="network-privacy-actions">
+          <button type="button" className="network-privacy-skip" onClick={onSkip}>Skip</button>
+          <button type="button" className="network-privacy-primary" onClick={onContinue}>Agree &amp; Continue</button>
+        </div>
+      </main>
+    </div>
+  )
+}
+
+function NetworkFlowHeader({ onBack, backLabel, onOpenGuide }) {
+  const [infoOpen, setInfoOpen] = useState(false)
+
+  return (
+    <>
+      <header className="network-flow-header">
+        <button type="button" aria-label={backLabel} onClick={onBack}><ChevronLeft size={22} /></button>
+        <button
+          type="button"
+          className="network-flow-info"
+          aria-label="About contact syncing"
+          aria-expanded={infoOpen}
+          onClick={() => setInfoOpen((open) => !open)}
+        >
+          <Info size={18} />
+        </button>
+      </header>
+      {infoOpen && (
+        <InfoBubble
+          variant="network-privacy-tip"
+          title="Contact syncing"
+          onClose={() => setInfoOpen(false)}
+          onOpenGuide={() => {
+            setInfoOpen(false)
+            onOpenGuide()
+          }}
+        >
+          Your contacts are used only to find people you know. Nothing is sent without your confirmation.
+        </InfoBubble>
+      )}
+    </>
+  )
+}
+
+function NetworkSyncingScreen({ onBack, onComplete, onOpenGuide }) {
+  useEffect(() => {
+    const timer = window.setTimeout(onComplete, 1000)
+    return () => window.clearTimeout(timer)
+  }, [onComplete])
+
+  return (
+    <div className="network-syncing-screen" aria-label="Syncing contacts">
+      <NetworkFlowHeader onBack={onBack} backLabel="Back to contact privacy" onOpenGuide={onOpenGuide} />
+      <div className="network-syncing-content">
+        <span className="network-syncing-hourglass" aria-hidden="true">
+          <img src="/images/network-sync-hourglass.svg" alt="" />
+        </span>
+        <h1>Synching<br />contacts</h1>
+        <div className="network-flow-spacer" />
+        <button type="button" className="network-flow-primary" disabled>Claim 100,000 pts</button>
+      </div>
+    </div>
+  )
+}
+
+function NetworkSyncSuccessScreen({ onBack, onContinue, onOpenGuide }) {
+  return (
+    <div className="network-sync-success" aria-label="Contacts synced successfully">
+      <NetworkFlowHeader onBack={onBack} backLabel="Back to syncing contacts" onOpenGuide={onOpenGuide} />
+      <div className="network-sync-success-content">
+        <span className="network-sync-success-check" aria-hidden="true">
+          <img src="/images/network-sync-success-check.svg" alt="" />
+        </span>
+        <section className="network-sync-success-copy">
+          <h1>Congratulations!</h1>
+          <p>Contacts synced successfully!<br />Your network is now up to date.</p>
+        </section>
+        <div className="network-flow-spacer" />
+        <button type="button" className="network-flow-primary" onClick={onContinue}>Claim 100,000 pts</button>
+      </div>
+    </div>
+  )
+}
+
+function NetworkSyncRewardScreen({ onBack, onNext }) {
+  return (
+    <div className="network-sync-reward" aria-label="1,000 points earned">
+      <button type="button" className="network-sync-reward-back" aria-label="Back to contacts synced" onClick={onBack}>
+        <ChevronLeft size={22} />
+      </button>
+      <div className="network-sync-reward-points" aria-hidden="true">
+        <img src="/images/intro-reward-1000.png" alt="" />
+      </div>
+      <img className="network-sync-reward-confetti" src="/images/intro-sequence-confetti.png" alt="" />
+      <img className="network-sync-reward-girl" src="/images/intro-sequence-girl.png" alt="" />
+      <div className="network-sync-reward-gradient" aria-hidden="true" />
+      <button type="button" className="network-sync-reward-next" onClick={onNext}>Next</button>
+      <div className="network-sync-reward-indicator" aria-hidden="true" />
+    </div>
+  )
+}
+
+function NetworkScreen({ onBack, onRemind, onSync, onSkip }) {
+  const [tab, setTab] = useState('Contacts')
+  const [query, setQuery] = useState('')
+  const people = tab === 'Invited' ? NETWORK_CONTACTS : []
+  const filteredPeople = people.filter(({ name }) => name.toLowerCase().includes(query.trim().toLowerCase()))
+
+  return (
+    <div className="network-scroll" tabIndex={0} aria-label="My Network">
+      <div className="network-screen">
+        <header className="network-header network-contacts-header">
+          <BankIcon width={27} height={24} aria-label="VietPay" />
+        </header>
+
+        <div className={`network-body${tab === 'Contacts' ? ' contacts-unsynced' : ''}`}>
+          <div className="network-tabs" role="tablist" aria-label="Network status">
+            {['Contacts', 'Invited', 'Registered'].map((item) => (
+              <button
+                key={item}
+                type="button"
+                role="tab"
+                aria-selected={tab === item}
+                onClick={() => setTab(item)}
+              >
+                {item}
+              </button>
+            ))}
+          </div>
+
+          {tab === 'Invited' && (
+            <section className="network-invited-summary" aria-label="Invited summary">
+              <div>
+                <strong>3 people invited</strong>
+                <p>They'll appear in Registered after signing up with your link.</p>
+              </div>
+              <span aria-hidden="true"><UsersRound size={28} /></span>
+            </section>
+          )}
+
+          {tab === 'Contacts' ? (
+            <section className="network-contact-sync-content">
+              <div className="network-sync-offer-hero" aria-hidden="true">
+                <img src="/images/intro-point-down.png" alt="" />
+              </div>
+              <img className="network-sync-offer-guide-line" src="/images/network-sync-guide-line.svg" alt="" aria-hidden="true" />
+              <section className="network-sync-offer-title">
+                <strong>Sync contacts</strong>
+                <span>to get points</span>
+              </section>
+              <section className="network-sync-offer-metrics" aria-label="Network totals">
+                {NETWORK_SYNC_METRICS.map((item) => (
+                  <div className="network-sync-offer-metric" key={item.label}>
+                    <span className={`network-sync-offer-metric-icon ${item.tone}`} aria-hidden="true">
+                      <img src={item.icon} alt="" />
+                    </span>
+                    <span>{item.label}</span>
+                    <strong>00</strong>
+                  </div>
+                ))}
+              </section>
+              <button type="button" className="network-sync-offer-terms">Terms and Conditions</button>
+              <button type="button" className="network-sync-offer-skip" onClick={onSkip}>Skip</button>
+              <button type="button" className="network-sync-offer-primary" onClick={onSync}>Sync contacts get 1,000 pts</button>
+            </section>
+          ) : (
+            <>
+              <label className="network-search-field">
+                <Search size={20} aria-hidden="true" />
+                <input
+                  type="search"
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  placeholder="Search people"
+                  aria-label="Search people"
+                />
+              </label>
+
+              <div className="network-list-heading">
+                <h2>{tab === 'Invited' ? 'Invited contacts' : tab}</h2>
+                <span>{tab === 'Invited' ? '3 people' : '0 people'}</span>
+              </div>
+
+              <div className="network-results-area">
+                {filteredPeople.length > 0 ? (
+                  <div className="network-invited-list">
+                    {filteredPeople.map((person) => (
+                      <article className="network-invited-person" key={person.name}>
+                        <span className="network-person-avatar" aria-hidden="true">{person.initial}</span>
+                        <div className="network-person-copy">
+                          <h3>{person.name}</h3>
+                          <p>{person.timing}</p>
+                          <span><i aria-hidden="true" />Waiting to register</span>
+                        </div>
+                        <button type="button" className="network-remind-button" onClick={() => onRemind(person)}>Remind</button>
+                      </article>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="network-empty-state">No people found.</p>
+                )}
+              </div>
+
+              <button type="button" className="network-invite-button">Invite more people</button>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+const REMINDER_MESSAGE = 'Hi! Just a quick reminder to join VietPay with my invitation link. You can earn rewards when you register.'
+
+function ReminderHeader({ title, onBack }) {
+  return (
+    <header className="reminder-flow-header">
+      <button type="button" aria-label="Back" onClick={onBack}><ChevronLeft size={22} /></button>
+      <h1>{title}</h1>
+    </header>
+  )
+}
+
+function ReminderPreviewScreen({ names, onNext, onBack }) {
+  return (
+    <div className="reminder-flow-screen">
+      <ReminderHeader title="Send reminder" onBack={onBack} />
+      <div className="reminder-flow-body">
+        <div className="reminder-flow-hero" aria-hidden="true">
+          <div className="reminder-flow-hero-frame">
+            <img src="/images/intro-point-down.png" alt="" />
+          </div>
+        </div>
+        <div className="reminder-flow-banner"><Info size={18} /><strong>Reminder ready to send</strong></div>
+        <section className="reminder-message-card" aria-label="Reminder message">
+          <h2>Your reminder</h2>
+          <p>{REMINDER_MESSAGE}</p>
+          <div className="reminder-link-chip"><span>vietpay.vn/invite/VIET2024XY</span><button type="button">Copy</button></div>
+        </section>
+        <section className="reminder-recipient-card" aria-label="Recipients">
+          <span>Recipients</span>
+          <strong>{names.join(', ')}</strong>
+        </section>
+        <button type="button" className="reminder-primary-button" onClick={onNext}>Choose share channel</button>
+      </div>
+    </div>
+  )
+}
+
+function ReminderShareScreen({ onNext, onBack }) {
+  return (
+    <div className="reminder-flow-screen reminder-share-screen">
+      <div className="reminder-share-backdrop" aria-hidden="true" />
+      <div className="reminder-share-sheet">
+        <div className="reminder-sheet-handle" />
+        <div className="reminder-sheet-heading"><h2>Share invitation</h2><button type="button" aria-label="Close" onClick={onBack}><X size={18} /></button></div>
+        <div className="reminder-share-link">
+          <span>vietpay.vn/invite/VIET2024XY</span>
+          <button type="button"><img src="/images/invite-copy.svg" alt="" />Copy</button>
+        </div>
+        <h3>Share via</h3>
+        <div className="reminder-share-options">
+          {[
+            ['Zalo', '/images/invite-zalo.svg'],
+            ['Messenger', '/images/invite-messenger.svg'],
+            ['SMS', '/images/invite-sms.svg'],
+            ['Email', '/images/invite-email.svg'],
+          ].map(([label, image]) => (
+            <button key={label} type="button" onClick={onNext}>
+              <img src={image} alt="" />
+              <span>{label}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function ReminderSentScreen({ names, onBack, onDone, onInvite }) {
+  return (
+    <div className="reminder-flow-screen reminder-sent-screen">
+      <ReminderHeader title="Invitation status" onBack={onBack} />
+      <div className="reminder-sent-body" style={{ '--reminder-contact-count': names.length }}>
+        <img className="reminder-sent-icon" src="/images/reminder-sent.svg" alt="" />
+        <h2>Reminder sent!</h2>
+        <p>Your reminder was sent to {names.length} contact{names.length === 1 ? '' : 's'}.</p>
+        <div className="reminder-sent-list">
+          {names.map((name) => <div key={name}><span>{name}</span><strong>Reminded</strong></div>)}
+        </div>
+        <div className="reminder-points-note">Points unlock after registration.</div>
+        <button type="button" className="reminder-primary-button" onClick={onDone}>View invited contacts</button>
+      </div>
+    </div>
+  )
+}
+
+function ReminderRewardScreen({ onNext, onBack }) {
+  return (
+    <div className="reminder-flow-screen reminder-reward-screen">
+      <button type="button" className="reminder-reward-back" aria-label="Back" onClick={onBack}><ChevronLeft size={22} /></button>
+      <img className="reminder-reward-points" src="/images/points-1000.png" alt="1,000 points" />
+      <img className="reminder-reward-confetti" src="/images/reward-confetti.png" alt="" />
+      <img className="reminder-reward-girl" src="/images/reward-girl.png" alt="" />
+      <button type="button" className="reminder-primary-button" onClick={onNext}>Next</button>
+    </div>
+  )
+}
+
+function ReminderFlow({ stage, names, onStageChange, onClose }) {
+  if (stage === 'preview') return <ReminderPreviewScreen names={names} onNext={() => onStageChange('share')} onBack={onClose} />
+  if (stage === 'share') return <><ReminderPreviewScreen names={names} onNext={() => {}} onBack={onClose} /><ReminderShareScreen onNext={() => onStageChange('reward')} onBack={() => onStageChange('preview')} /></>
+  if (stage === 'reward') return <ReminderRewardScreen onNext={() => onStageChange('sent')} onBack={() => onStageChange('share')} />
+  return <ReminderSentScreen names={names} onBack={() => onStageChange('reward')} onDone={onClose} onInvite={() => onStageChange('preview')} />
+}
+
 export default function App() {
   const fileInputRef = useRef(null)
   const [avatarUrl, setAvatarUrl] = useState(null)
@@ -199,6 +636,9 @@ export default function App() {
   const [activityPreviewOpen, setActivityPreviewOpen] = useState(false)
   const [saved, setSaved] = useState(false)
   const [introCompleted, setIntroCompleted] = useState(false)
+  const [reminderStage, setReminderStage] = useState(null)
+  const [reminderNames, setReminderNames] = useState([])
+  const [networkStage, setNetworkStage] = useState('contacts')
 
   const sliderPct = ((goalAmount - MIN_GOAL) / (MAX_GOAL - MIN_GOAL)) * 100
 
@@ -231,6 +671,11 @@ export default function App() {
   function handleSave() {
     setSaved(true)
     setTimeout(() => setSaved(false), 1800)
+  }
+
+  function openReminder(person) {
+    setReminderNames([person.name])
+    setReminderStage('preview')
   }
 
   function handlePhoneCommentClick(e) {
@@ -318,6 +763,46 @@ export default function App() {
                 setCheckinStage('checkin')
               }}
             />
+          ) : reminderStage ? (
+            <ReminderFlow
+              stage={reminderStage}
+              names={reminderNames}
+              onStageChange={setReminderStage}
+              onClose={() => setReminderStage(null)}
+            />
+          ) : selectedNav === 'Network' ? (
+            networkStage === 'consent' ? (
+              <NetworkPrivacyConsentScreen
+                onBack={() => setNetworkStage('contacts')}
+                onSkip={() => setNetworkStage('contacts')}
+                onContinue={() => setNetworkStage('syncing')}
+                onOpenGuide={() => setGuideTopic('contactSync')}
+              />
+            ) : networkStage === 'syncing' ? (
+              <NetworkSyncingScreen
+                onBack={() => setNetworkStage('consent')}
+                onComplete={() => setNetworkStage('success')}
+                onOpenGuide={() => setGuideTopic('contactSync')}
+              />
+            ) : networkStage === 'success' ? (
+              <NetworkSyncSuccessScreen
+                onBack={() => setNetworkStage('consent')}
+                onContinue={() => setNetworkStage('reward')}
+                onOpenGuide={() => setGuideTopic('contactSync')}
+              />
+            ) : networkStage === 'reward' ? (
+              <NetworkSyncRewardScreen
+                onBack={() => setNetworkStage('success')}
+                onNext={() => setNetworkStage('contacts')}
+              />
+            ) : (
+              <NetworkScreen
+                onBack={() => setSelectedNav('Home')}
+                onRemind={openReminder}
+                onSync={() => setNetworkStage('consent')}
+                onSkip={() => setSelectedNav('Home')}
+              />
+            )
           ) : selectedNav === 'Points' ? (
             <PointsFlow BankIcon={BankIcon} onOpenPointsGuide={() => setGuideTopic('points')} />
           ) : (
@@ -547,7 +1032,7 @@ export default function App() {
           </div>
           )}
 
-          {!(checkinFlowOpen && checkinStage === 'success') && !(launchMode === 'first' && !introCompleted) && (
+          {!(checkinFlowOpen && checkinStage === 'success') && !(launchMode === 'first' && !introCompleted) && !reminderStage && !(selectedNav === 'Network' && networkStage !== 'contacts') && (
           <nav className="bottom-bar" aria-label="Main navigation">
             {[
               { key: 'Home', icon: House },

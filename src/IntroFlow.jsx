@@ -252,7 +252,7 @@ function InviteScreen({ playing, onPlayingChange, onNext, onBack }) {
         <img src="/images/intro-video-thumbnail.png" alt="" />
         <span className={playing ? 'playing' : ''}><Play size={29} fill="none" /></span>
       </button>
-      <SequenceFooter icon={UserPlus} onClick={onNext}>Invite people now</SequenceFooter>
+      <SequenceFooter onClick={onNext}>Next</SequenceFooter>
     </div>
   )
 }
@@ -357,8 +357,6 @@ export default function IntroFlow({ onComplete, onOpenEstimateGuide }) {
   if (stage === 'avatar') return <AvatarScreen choice={avatarChoice} name={name} onChoiceChange={setAvatarChoice} onNameChange={setName} onNext={goNext} onBack={goBack} />
   if (stage === 'upload') return <UploadScreen fileName={fileName} onFileChange={setFileName} onNext={goNext} onBack={goBack} />
   if (stage === 'invite') return <InviteScreen playing={videoPlaying} onPlayingChange={setVideoPlaying} onNext={goNext} onBack={goBack} />
-  if (stage === 'invitation-share') return <InvitationShareScreen onNext={goNext} onBack={goBack} />
-
   const points = Number(stage.split('-')[1])
   return <RewardScreen points={points} onNext={goNext} onBack={goBack} />
 }
