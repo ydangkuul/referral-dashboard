@@ -9,6 +9,8 @@ import CheckInFlow from './CheckInFlow.jsx'
 import IntroFlow from './IntroFlow.jsx'
 import FirstLaunchDashboard from './FirstLaunchDashboard.jsx'
 
+const assetUrl = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`
+
 // Brand bank icon (from design handoff) — recolored to currentColor so it
 // tracks the theme token instead of the hardcoded #0D3C7D in the source file.
 function BankIcon({ width = 28, height = 25, 'aria-label': ariaLabel }) {
@@ -209,9 +211,9 @@ const SYNCED_CONTACTS = [
 ]
 
 const NETWORK_SYNC_METRICS = [
-  { label: 'Contacts', icon: '/images/network-contacts.svg', tone: 'contacts' },
-  { label: 'Invited', icon: '/images/network-invited.png', tone: 'invited' },
-  { label: 'Registered', icon: '/images/network-registered.png', tone: 'registered' },
+  { label: 'Contacts', icon: assetUrl('images/network-contacts.svg'), tone: 'contacts' },
+  { label: 'Invited', icon: assetUrl('images/network-invited.png'), tone: 'invited' },
+  { label: 'Registered', icon: assetUrl('images/network-registered.png'), tone: 'registered' },
 ]
 
 function NetworkSyncOfferScreen({ onBack, onContinue }) {
@@ -223,7 +225,7 @@ function NetworkSyncOfferScreen({ onBack, onContinue }) {
       </header>
 
       <div className="network-sync-offer-hero" aria-hidden="true">
-        <img src="/images/intro-point-down.png" alt="" />
+        <img src={assetUrl('images/intro-point-down.png')} alt="" />
       </div>
 
       <section className="network-sync-offer-title">
@@ -252,15 +254,15 @@ function NetworkSyncOfferScreen({ onBack, onContinue }) {
 
 const NETWORK_PRIVACY_POINTS = [
   {
-    icon: '/images/network-consent-forbid.svg',
+    icon: assetUrl('images/network-consent-forbid.svg'),
     copy: 'No messages sent automatically without your confirmation',
   },
   {
-    icon: '/images/network-consent-lock.svg',
+    icon: assetUrl('images/network-consent-lock.svg'),
     copy: 'Not stored for anything beyond finding friends',
   },
   {
-    icon: '/images/network-consent-check.svg',
+    icon: assetUrl('images/network-consent-check.svg'),
     copy: 'You can turn off syncing anytime',
   },
 ]
@@ -299,7 +301,7 @@ function NetworkPrivacyConsentScreen({ onBack, onSkip, onContinue, onOpenGuide }
 
       <main className="network-privacy-content">
         <span className="network-privacy-shield" aria-hidden="true">
-          <img src="/images/network-consent-shield.svg" alt="" />
+          <img src={assetUrl('images/network-consent-shield.svg')} alt="" />
         </span>
 
         <section className="network-privacy-copy">
@@ -370,7 +372,7 @@ function NetworkSyncingScreen({ onBack, onComplete, onOpenGuide }) {
       <NetworkFlowHeader onBack={onBack} backLabel="Back to contact privacy" onOpenGuide={onOpenGuide} />
       <div className="network-syncing-content">
         <span className="network-syncing-hourglass" aria-hidden="true">
-          <img src="/images/network-sync-hourglass.svg" alt="" />
+          <img src={assetUrl('images/network-sync-hourglass.svg')} alt="" />
         </span>
         <h1>Synching<br />contacts</h1>
         <div className="network-flow-spacer" />
@@ -386,7 +388,7 @@ function NetworkSyncSuccessScreen({ onBack, onContinue, onOpenGuide }) {
       <NetworkFlowHeader onBack={onBack} backLabel="Back to syncing contacts" onOpenGuide={onOpenGuide} />
       <div className="network-sync-success-content">
         <span className="network-sync-success-check" aria-hidden="true">
-          <img src="/images/network-sync-success-check.svg" alt="" />
+          <img src={assetUrl('images/network-sync-success-check.svg')} alt="" />
         </span>
         <section className="network-sync-success-copy">
           <h1>Congratulations!</h1>
@@ -406,10 +408,10 @@ function NetworkSyncRewardScreen({ onBack, onNext, points = 1000 }) {
         <ChevronLeft size={22} />
       </button>
       <div className="network-sync-reward-points" aria-hidden="true">
-        <img src={`/images/intro-reward-${points}.png`} alt="" />
+        <img src={assetUrl(`images/intro-reward-${points}.png`)} alt="" />
       </div>
-      <img className="network-sync-reward-confetti" src="/images/intro-sequence-confetti.png" alt="" />
-      <img className="network-sync-reward-girl" src="/images/intro-sequence-girl.png" alt="" />
+      <img className="network-sync-reward-confetti" src={assetUrl('images/intro-sequence-confetti.png')} alt="" />
+      <img className="network-sync-reward-girl" src={assetUrl('images/intro-sequence-girl.png')} alt="" />
       <div className="network-sync-reward-gradient" aria-hidden="true" />
       <button type="button" className="network-sync-reward-next" onClick={onNext}>Next</button>
       <div className="network-sync-reward-indicator" aria-hidden="true" />
@@ -418,11 +420,11 @@ function NetworkSyncRewardScreen({ onBack, onNext, points = 1000 }) {
 }
 
 const NETWORK_OVERVIEW_ROWS = [
-  { key: 'contacts', value: '70', label: 'Contacts', action: 'Invite', icon: '/images/network-overview-contacts.png' },
-  { key: 'invited', value: '00', label: 'Invited', action: 'Nudge', icon: '/images/network-overview-invited.png' },
-  { key: 'registered', value: '00', label: 'Registered', action: 'Connect', icon: '/images/network-overview-registered.png' },
-  { key: 'influencer', value: '00', label: 'Influencer', action: 'Connect', icon: '/images/network-overview-influencer.png' },
-  { key: 'merchant', value: '00', label: 'Merchant', action: 'Connect', icon: '/images/network-overview-merchant.png' },
+  { key: 'contacts', value: '70', label: 'Contacts', action: 'Invite', icon: assetUrl('images/network-overview-contacts.png') },
+  { key: 'invited', value: '00', label: 'Invited', action: 'Nudge', icon: assetUrl('images/network-overview-invited.png') },
+  { key: 'registered', value: '00', label: 'Registered', action: 'Connect', icon: assetUrl('images/network-overview-registered.png') },
+  { key: 'influencer', value: '00', label: 'Influencer', action: 'Connect', icon: assetUrl('images/network-overview-influencer.png') },
+  { key: 'merchant', value: '00', label: 'Merchant', action: 'Connect', icon: assetUrl('images/network-overview-merchant.png') },
 ]
 
 function NetworkOverviewScreen({ onBack, onInvite, onNudge }) {
@@ -466,7 +468,7 @@ function NetworkOverviewScreen({ onBack, onInvite, onNudge }) {
         </div>
 
         <button type="button" className="network-overview-banner" onClick={onInvite}>
-          <img src="/images/network-overview-gift.png" alt="" />
+          <img src={assetUrl('images/network-overview-gift.png')} alt="" />
           <strong>Earn points when you invite<br />friends</strong>
           <span className="network-overview-banner-arrow first" aria-hidden="true">›</span>
           <span className="network-overview-banner-arrow second" aria-hidden="true">›</span>
@@ -549,9 +551,9 @@ function NetworkContactsScreen({ contactsSynced, initialTab = 'Contacts', contac
           {tab === 'Contacts' && !contactsSynced ? (
             <section className="network-contact-sync-content">
               <div className="network-sync-offer-hero" aria-hidden="true">
-                <img src="/images/intro-point-down.png" alt="" />
+                <img src={assetUrl('images/intro-point-down.png')} alt="" />
               </div>
-              <img className="network-sync-offer-guide-line" src="/images/network-sync-guide-line.svg" alt="" aria-hidden="true" />
+              <img className="network-sync-offer-guide-line" src={assetUrl('images/network-sync-guide-line.svg')} alt="" aria-hidden="true" />
               <section className="network-sync-offer-title">
                 <strong>Sync contacts</strong>
                 <span>to get points</span>
@@ -708,21 +710,21 @@ function ContactInvitationPreview({ names, onBack, onSent }) {
   return (
     <div className="contact-invite-screen contact-invite-preview">
       <ContactInviteHeader onBack={onBack} info />
-      <div className="contact-invite-hero" aria-hidden="true"><img src="/images/intro-point-down.png" alt="" /></div>
-      <div className="contact-invite-ready"><img src="/images/invite-sparkles.svg" alt="" /><strong>Ready to send to {names.length} contacts</strong></div>
+      <div className="contact-invite-hero" aria-hidden="true"><img src={assetUrl('images/intro-point-down.png')} alt="" /></div>
+      <div className="contact-invite-ready"><img src={assetUrl('images/invite-sparkles.svg')} alt="" /><strong>Ready to send to {names.length} contacts</strong></div>
       <section className="contact-invite-card" aria-label="Invitation preview">
         <h2>Your invitation</h2>
         <p>{INVITATION_MESSAGE}</p>
-        <div><span>{INVITATION_LINK}</span><button type="button" onClick={copyLink}><img src="/images/invite-copy.svg" alt="" />Copy</button></div>
+        <div><span>{INVITATION_LINK}</span><button type="button" onClick={copyLink}><img src={assetUrl('images/invite-copy.svg')} alt="" />Copy</button></div>
       </section>
       <section className="contact-share-options" aria-label="Share via">
         <h2>Share via</h2>
         <div>
           {[
-            ['Zalo', '/images/invite-zalo.svg'],
-            ['Messenger', '/images/invite-messenger.svg'],
-            ['SMS', '/images/invite-sms.svg'],
-            ['Email', '/images/invite-email.svg'],
+            ['Zalo', assetUrl('images/invite-zalo.svg')],
+            ['Messenger', assetUrl('images/invite-messenger.svg')],
+            ['SMS', assetUrl('images/invite-sms.svg')],
+            ['Email', assetUrl('images/invite-email.svg')],
           ].map(([label, image]) => (
             <button type="button" key={label} onClick={onSent}><img src={image} alt="" /><span>{label}</span></button>
           ))}
@@ -737,7 +739,7 @@ function ContactInvitationSent({ names, onBack, onInviteMore, onViewInvited }) {
     <div className="contact-invite-screen contact-invite-sent">
       <ContactInviteHeader title="Invitation status" onBack={onBack} />
       <main className="contact-invite-sent-body" style={{ '--invite-count': names.length }}>
-        <img className="contact-invite-sent-icon" src="/images/reminder-sent.svg" alt="" />
+        <img className="contact-invite-sent-icon" src={assetUrl('images/reminder-sent.svg')} alt="" />
         <h2>Invitation sent!</h2>
         <p>Your invitation was sent to {names.length} contact{names.length === 1 ? '' : 's'}.</p>
         <section className="contact-invite-sent-list">
@@ -873,7 +875,7 @@ function ReminderPreviewScreen({ names, onNext, onBack }) {
       <div className="reminder-flow-body">
         <div className="reminder-flow-hero" aria-hidden="true">
           <div className="reminder-flow-hero-frame">
-            <img src="/images/intro-point-down.png" alt="" />
+            <img src={assetUrl('images/intro-point-down.png')} alt="" />
           </div>
         </div>
         <div className="reminder-flow-banner"><Info size={18} /><strong>Reminder ready to send</strong></div>
@@ -901,15 +903,15 @@ function ReminderShareScreen({ onNext, onBack }) {
         <div className="reminder-sheet-heading"><h2>Share invitation</h2><button type="button" aria-label="Close" onClick={onBack}><X size={18} /></button></div>
         <div className="reminder-share-link">
           <span>vietpay.vn/invite/VIET2024XY</span>
-          <button type="button"><img src="/images/invite-copy.svg" alt="" />Copy</button>
+          <button type="button"><img src={assetUrl('images/invite-copy.svg')} alt="" />Copy</button>
         </div>
         <h3>Share via</h3>
         <div className="reminder-share-options">
           {[
-            ['Zalo', '/images/invite-zalo.svg'],
-            ['Messenger', '/images/invite-messenger.svg'],
-            ['SMS', '/images/invite-sms.svg'],
-            ['Email', '/images/invite-email.svg'],
+            ['Zalo', assetUrl('images/invite-zalo.svg')],
+            ['Messenger', assetUrl('images/invite-messenger.svg')],
+            ['SMS', assetUrl('images/invite-sms.svg')],
+            ['Email', assetUrl('images/invite-email.svg')],
           ].map(([label, image]) => (
             <button key={label} type="button" onClick={onNext}>
               <img src={image} alt="" />
@@ -927,7 +929,7 @@ function ReminderSentScreen({ names, onBack, onDone, onInvite }) {
     <div className="reminder-flow-screen reminder-sent-screen">
       <ReminderHeader title="Invitation status" onBack={onBack} />
       <div className="reminder-sent-body" style={{ '--reminder-contact-count': names.length }}>
-        <img className="reminder-sent-icon" src="/images/reminder-sent.svg" alt="" />
+        <img className="reminder-sent-icon" src={assetUrl('images/reminder-sent.svg')} alt="" />
         <h2>Reminder sent!</h2>
         <p>Your reminder was sent to {names.length} contact{names.length === 1 ? '' : 's'}.</p>
         <div className="reminder-sent-list">
@@ -944,9 +946,9 @@ function ReminderRewardScreen({ onNext, onBack }) {
   return (
     <div className="reminder-flow-screen reminder-reward-screen">
       <button type="button" className="reminder-reward-back" aria-label="Back" onClick={onBack}><ChevronLeft size={22} /></button>
-      <img className="reminder-reward-points" src="/images/points-1000.png" alt="1,000 points" />
-      <img className="reminder-reward-confetti" src="/images/reward-confetti.png" alt="" />
-      <img className="reminder-reward-girl" src="/images/reward-girl.png" alt="" />
+      <img className="reminder-reward-points" src={assetUrl('images/points-1000.png')} alt="1,000 points" />
+      <img className="reminder-reward-confetti" src={assetUrl('images/reward-confetti.png')} alt="" />
+      <img className="reminder-reward-girl" src={assetUrl('images/reward-girl.png')} alt="" />
       <button type="button" className="reminder-primary-button" onClick={onNext}>Next</button>
     </div>
   )
