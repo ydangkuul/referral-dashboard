@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   Signal, Wifi, BatteryFull, Landmark, UserRound, Info, CalendarCheck,
   ChevronDown, ChevronLeft, Clock3, House, Search, UsersRound, Goal as GoalIcon,
-  CircleCheck, X, Play, Pause,
+  CircleCheck, X, Play, Pause, ArrowLeft, CreditCard, QrCode,
 } from 'lucide-react'
 import PointsFlow from './PointsFlow.jsx'
 import CheckInFlow from './CheckInFlow.jsx'
@@ -417,7 +417,91 @@ function NetworkSyncRewardScreen({ onBack, onNext, points = 1000 }) {
   )
 }
 
-function NetworkScreen({ contactsSynced, initialTab = 'Contacts', contacts = SYNCED_CONTACTS, invitedContacts = NETWORK_CONTACTS, onBack, onRemind, onSync, onSkip, onInviteContact, onInviteContacts }) {
+const NETWORK_OVERVIEW_ROWS = [
+  { key: 'contacts', value: '70', label: 'Contacts', action: 'Invite', icon: '/images/network-overview-contacts.png' },
+  { key: 'invited', value: '00', label: 'Invited', action: 'Nudge', icon: '/images/network-overview-invited.png' },
+  { key: 'registered', value: '00', label: 'Registered', action: 'Connect', icon: '/images/network-overview-registered.png' },
+  { key: 'influencer', value: '00', label: 'Influencer', action: 'Connect', icon: '/images/network-overview-influencer.png' },
+  { key: 'merchant', value: '00', label: 'Merchant', action: 'Connect', icon: '/images/network-overview-merchant.png' },
+]
+
+function NetworkOverviewScreen({ onBack, onInvite, onNudge }) {
+  const [infoOpen, setInfoOpen] = useState(false)
+
+  function handleAction(key) {
+    if (key === 'contacts') onInvite()
+    if (key === 'invited') onNudge()
+  }
+
+  return (
+    <main className="network-overview-screen" aria-label="My network overview">
+      <header className="network-overview-toolbar">
+        <button type="button" className="network-overview-back" aria-label="Back to Home" onClick={onBack}>
+          <ArrowLeft size={23} strokeWidth={2} />
+        </button>
+        <div className="network-overview-tools" aria-label="Network shortcuts">
+          <span className="selected" aria-hidden="true"><CreditCard size={21} strokeWidth={1.8} /></span>
+          <span aria-hidden="true"><QrCode size={20} strokeWidth={2} /></span>
+          <span aria-hidden="true"><BankIcon width={23} height={21} /></span>
+        </div>
+      </header>
+
+      <section className="network-overview-body">
+        <div className="network-overview-title">
+          <h1>My network</h1>
+          <button
+            type="button"
+            aria-label="About My network"
+            aria-expanded={infoOpen}
+            onClick={() => setInfoOpen((open) => !open)}
+          >
+            <Info size={17} strokeWidth={1.8} />
+          </button>
+          {infoOpen && (
+            <div className="network-overview-info" role="dialog" aria-modal="false">
+              <strong>My network</strong>
+              <p>See everyone in your referral network and choose the next action for each group.</p>
+            </div>
+          )}
+        </div>
+
+        <button type="button" className="network-overview-banner" onClick={onInvite}>
+          <img src="/images/network-overview-gift.png" alt="" />
+          <strong>Earn points when you invite<br />friends</strong>
+          <span className="network-overview-banner-arrow first" aria-hidden="true">›</span>
+          <span className="network-overview-banner-arrow second" aria-hidden="true">›</span>
+        </button>
+
+        <div className="network-overview-list">
+          {NETWORK_OVERVIEW_ROWS.map((item) => {
+            const enabled = item.key === 'contacts' || item.key === 'invited'
+            return (
+              <article className={`network-overview-row${item.key === 'contacts' ? ' primary' : ''}`} key={item.key}>
+                <div className="network-overview-row-main">
+                  <img src={item.icon} alt="" />
+                  <div className="network-overview-metric">
+                    <strong>{item.value}</strong>
+                    <span>{item.label}</span>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  className={enabled ? 'enabled' : ''}
+                  disabled={!enabled}
+                  onClick={() => handleAction(item.key)}
+                >
+                  {item.action}
+                </button>
+              </article>
+            )
+          })}
+        </div>
+      </section>
+    </main>
+  )
+}
+
+function NetworkContactsScreen({ contactsSynced, initialTab = 'Contacts', contacts = SYNCED_CONTACTS, invitedContacts = NETWORK_CONTACTS, onBack, onRemind, onSync, onSkip, onInviteContact, onInviteContacts }) {
   const [tab, setTab] = useState(initialTab)
   const [query, setQuery] = useState('')
   const [showScrollHint, setShowScrollHint] = useState(true)
@@ -433,6 +517,7 @@ function NetworkScreen({ contactsSynced, initialTab = 'Contacts', contacts = SYN
     <div className="network-scroll" tabIndex={0} aria-label="My Network">
       <div className="network-screen">
         <header className="network-header network-contacts-header">
+          <button type="button" aria-label="Back to My network" onClick={onBack}><ChevronLeft size={22} /></button>
           <BankIcon width={27} height={24} aria-label="VietPay" />
         </header>
 
@@ -883,8 +968,8 @@ export default function App() {
   const [guideTopic, setGuideTopic] = useState(null)
   const [goalAmount, setGoalAmount] = useState(30)
   const [months, setMonths] = useState(12)
-  const [selectedNav, setSelectedNav] = useState('Home')
-  const [launchMode, setLaunchMode] = useState('first')
+  const [selectedNav, setSelectedNav] = useState('Network')
+  const [launchMode, setLaunchMode] = useState('returning')
   const [contactsSynced, setContactsSynced] = useState(false)
   const [redCommentMode, setRedCommentMode] = useState(false)
   const [redComments, setRedComments] = useState([])
@@ -897,7 +982,7 @@ export default function App() {
   const [firstLaunchStage, setFirstLaunchStage] = useState(null)
   const [reminderStage, setReminderStage] = useState(null)
   const [reminderNames, setReminderNames] = useState([])
-  const [networkStage, setNetworkStage] = useState('contacts')
+  const [networkStage, setNetworkStage] = useState('overview')
   const [contactInviteStage, setContactInviteStage] = useState(null)
   const [selectedInviteNames, setSelectedInviteNames] = useState([])
   const [recentlyInvitedNames, setRecentlyInvitedNames] = useState([])
@@ -1087,7 +1172,7 @@ export default function App() {
               onInvite={() => {
                 setFirstLaunchStage(null)
                 setSelectedNav('Network')
-                setNetworkStage('contacts')
+                setNetworkStage('overview')
                 setNetworkInitialTab('Contacts')
               }}
             />
@@ -1135,6 +1220,18 @@ export default function App() {
                   setContactInviteStage(null)
                 }}
               />
+            ) : networkStage === 'overview' ? (
+              <NetworkOverviewScreen
+                onBack={() => setSelectedNav('Home')}
+                onInvite={() => {
+                  setNetworkInitialTab('Contacts')
+                  setNetworkStage('contacts')
+                }}
+                onNudge={() => {
+                  setNetworkInitialTab('Invited')
+                  setNetworkStage('contacts')
+                }}
+              />
             ) : networkStage === 'consent' ? (
               <NetworkPrivacyConsentScreen
                 onBack={() => setNetworkStage('contacts')}
@@ -1160,13 +1257,13 @@ export default function App() {
                 onNext={() => setNetworkStage('contacts')}
               />
             ) : (
-              <NetworkScreen
+              <NetworkContactsScreen
                 key={`${contactsSynced ? 'contacts-synced' : 'contacts-not-synced'}-${networkInitialTab}-${recentlyInvitedNames.join('-')}`}
                 contactsSynced={contactsSynced}
                 initialTab={networkInitialTab}
                 contacts={availableSyncedContacts}
                 invitedContacts={visibleInvitedContacts}
-                onBack={() => setSelectedNav('Home')}
+                onBack={() => setNetworkStage('overview')}
                 onRemind={openReminder}
                 onSync={() => setNetworkStage('consent')}
                 onSkip={() => setSelectedNav('Home')}
@@ -1433,6 +1530,11 @@ export default function App() {
                 aria-pressed={selectedNav === key}
                 onClick={() => {
                   if (launchMode === 'first' && firstLaunchStage === 'dashboard' && key !== 'Home') setFirstLaunchStage(null)
+                  if (key === 'Network') {
+                    setNetworkStage('overview')
+                    setNetworkInitialTab('Contacts')
+                    setContactInviteStage(null)
+                  }
                   setSelectedNav(key)
                 }}
               >
