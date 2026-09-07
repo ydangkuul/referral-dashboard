@@ -616,12 +616,6 @@ input[type="file"] {
   cursor: pointer;
 }
 
-.launch-mode-controls .start-app-button {
-  background: #0d3c7d;
-  color: white;
-  border-color: #0d3c7d;
-}
-
 .launch-mode-controls button[aria-pressed="true"] {
   border-color: #0d3c7d;
   background: #eaf6fd;
@@ -804,7 +798,7 @@ input[type="file"] {
   max-width: 238px;
   margin: 2px 0 0;
   color: var(--color-text-muted);
-  font-size: 12px;
+  font-size: 14px;
   line-height: 18px;
 }
 
@@ -973,12 +967,73 @@ input[type="file"] {
   margin: 0;
 }
 
+.network-body.contacts-synced .network-results-area {
+  min-height: 0;
+  height: 420px;
+  position: relative;
+}
+
+.network-body.contacts-synced .network-invited-list {
+  height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+}
+
+.network-body.contacts-synced .network-invited-list::-webkit-scrollbar {
+  display: none;
+}
+
+.network-body.contacts-synced .network-invite-button {
+  top: 600px;
+}
+
+.network-body.invited-tab .network-results-area {
+  position: relative;
+  min-height: 0;
+  height: 323px;
+}
+
+.network-body.invited-tab .network-invited-list {
+  height: auto;
+  max-height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+}
+
+.network-body.invited-tab .network-invited-list::-webkit-scrollbar {
+  display: none;
+}
+
+.network-scroll-hint {
+  position: absolute;
+  right: 1px;
+  bottom: 6px;
+  left: 1px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: 0 0 15px 15px;
+  color: var(--color-primary);
+  background: linear-gradient(to bottom, rgba(255,255,255,0), #fff 42%);
+  font-size: 14px;
+  font-weight: 600;
+  pointer-events: none;
+}
+
+.network-scroll-hint svg {
+  transform: rotate(180deg);
+}
+
 .network-invited-person {
-  min-height: 88px;
+  min-height: 84px;
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 12px 16px;
+  padding: 10px 16px;
   background: #fff;
 }
 
@@ -1158,16 +1213,13 @@ input[type="file"] {
   background: #bfe0f5;
   color: #373a36;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
-  font-size: 24px;
+  font-size: 22px;
   line-height: 26px;
 }
 
-.network-sync-offer-title strong {
-  font-weight: 700;
-}
-
+.network-sync-offer-title strong,
 .network-sync-offer-title span {
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .network-sync-offer-metrics {
@@ -1189,7 +1241,7 @@ input[type="file"] {
   gap: 14px;
   margin: 0 4px 0 16px;
   border-bottom: 1px solid #ededed;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .network-sync-offer-metric:last-child {
@@ -1199,7 +1251,7 @@ input[type="file"] {
 .network-sync-offer-metric > strong {
   margin-left: auto;
   padding-right: 20px;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 700;
 }
 
@@ -2182,6 +2234,733 @@ input[type="file"] {
   overflow: hidden;
   background: #fff;
 }
+
+/* Synced contacts invitation flow — Figma 1007:785. */
+.contact-invite-screen {
+  position: absolute;
+  inset: 47px 0 0;
+  z-index: 30;
+  overflow: hidden;
+  color: var(--color-ink);
+  background: #fff;
+}
+
+.contact-invite-header {
+  position: relative;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
+  background: #fff;
+}
+
+.contact-invite-header button {
+  position: absolute;
+  top: 6px;
+  left: 20px;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  color: var(--color-primary);
+  background: transparent;
+}
+
+.contact-invite-header h1 {
+  margin: 0;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 600;
+}
+
+.contact-invite-info {
+  position: absolute;
+  top: 13px;
+  right: 25px;
+}
+
+.contact-select-body {
+  height: calc(100% - 151px);
+  padding: 14px 20px 20px;
+  overflow-y: auto;
+  scrollbar-width: none;
+  background: #fdfbf7;
+}
+
+.contact-select-body::-webkit-scrollbar {
+  display: none;
+}
+
+.contact-select-search {
+  height: 52px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  color: var(--color-text-muted);
+  background: #fff;
+}
+
+.contact-select-search input {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  color: var(--color-ink);
+  background: transparent;
+  font-size: 15px;
+}
+
+.contact-select-all {
+  width: 100%;
+  min-height: 58px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 12px;
+  border: 0;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-ink);
+  background: transparent;
+  text-align: left;
+}
+
+.contact-select-all strong { flex: 1; font-size: 15px; }
+.contact-select-all small { color: var(--color-text-muted); font-size: 12px; }
+
+.contact-check {
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  flex: none;
+  border: 1.5px solid #9da09d;
+  border-radius: 50%;
+  color: #fff;
+  background: #fff;
+}
+
+.contact-check.checked {
+  border-color: #0073bf;
+  background: #0073bf;
+}
+
+.contact-select-list {
+  margin-top: 12px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 3px 10px #0000000c;
+}
+
+.contact-select-row {
+  width: 100%;
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border: 0;
+  color: var(--color-ink);
+  background: #fff;
+  text-align: left;
+}
+
+.contact-select-row + .contact-select-row { border-top: 1px solid #ececec; }
+.contact-select-row.selected { background: #f2f9fd; }
+
+.contact-select-avatar {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  flex: none;
+  border-radius: 50%;
+  color: var(--color-primary);
+  background: #bfe0f5;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.contact-select-copy {
+  min-width: 0;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.contact-select-copy strong { font-size: 15px; line-height: 21px; }
+.contact-select-copy small { color: var(--color-text-muted); font-size: 12px; }
+
+.contact-select-footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 107px;
+  padding: 10px 20px 14px;
+  border-top: 1px solid var(--color-border);
+  background: #fff;
+}
+
+.contact-select-footer p {
+  margin: 0 0 8px;
+  color: var(--color-text-muted);
+  text-align: center;
+  font-size: 12px;
+}
+
+.contact-select-footer button,
+.contact-invite-primary {
+  width: 100%;
+  height: 54px;
+  border: 0;
+  border-radius: 13px;
+  color: #fff;
+  background: var(--color-primary);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.contact-select-footer button:disabled {
+  color: #fff;
+  background: var(--color-primary);
+  opacity: 1;
+  cursor: default;
+}
+
+.contact-invite-preview { background: #fdfbf7; }
+
+.contact-invite-hero {
+  position: absolute;
+  top: 68px;
+  left: 30px;
+  width: 330px;
+  height: 207px;
+  overflow: hidden;
+}
+
+.contact-invite-hero img {
+  position: absolute;
+  top: -11px;
+  left: -60px;
+  width: 464px;
+  max-width: none;
+}
+
+.contact-invite-ready {
+  position: absolute;
+  top: 275px;
+  left: 20px;
+  width: 350px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+  border-radius: 12px;
+  color: var(--color-primary);
+  background: #bfe0f5;
+  font-size: 13px;
+}
+
+.contact-invite-ready img { width: 20px; height: 20px; }
+
+.contact-invite-card {
+  position: absolute;
+  top: 337px;
+  left: 20px;
+  width: 350px;
+  height: 258px;
+  padding: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 2px 8px #0000000d;
+}
+
+.contact-invite-card h2,
+.contact-share-options h2 {
+  margin: 0 0 12px;
+  font-size: 17px;
+  line-height: 24px;
+  font-weight: 600;
+}
+
+.contact-invite-card > p {
+  min-height: 112px;
+  margin: 0;
+  padding: 12px;
+  border-radius: 10px;
+  color: var(--color-text);
+  background: #f5f7fa;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.contact-invite-card > div {
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 0 8px 0 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 9px;
+  color: var(--color-primary);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.contact-invite-card > div > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.contact-invite-card > div button { display: flex; align-items: center; gap: 5px; padding: 0; border: 0; color: #0073bf; background: transparent; font-size: 12px; font-weight: 600; }
+.contact-invite-card > div img { width: 14px; height: 14px; }
+
+.contact-share-options {
+  position: absolute;
+  top: 621px;
+  right: 20px;
+  left: 20px;
+}
+
+.contact-share-options > div { display: flex; justify-content: space-between; }
+.contact-share-options button { width: 62px; display: flex; flex-direction: column; align-items: center; gap: 7px; padding: 0; border: 0; color: var(--color-text-muted); background: transparent; font-size: 12px; font-weight: 600; }
+.contact-share-options button img { width: 48px; height: 48px; padding: 13px; border-radius: 50%; }
+.contact-share-options button:nth-child(1) img { background: #0073bf; }
+.contact-share-options button:nth-child(2) img { background: #0d3c7d; }
+.contact-share-options button:nth-child(3) img { background: #73bf26; }
+.contact-share-options button:nth-child(4) img { background: #d7a44c; }
+
+.contact-invite-sent-body {
+  position: relative;
+  height: calc(100% - 44px);
+  text-align: center;
+}
+
+.contact-invite-sent-icon { position: absolute; top: 25px; left: 150px; width: 90px; height: 90px; }
+.contact-invite-sent-body > h2 { position: absolute; top: 139px; right: 24px; left: 24px; margin: 0; color: var(--color-primary); font-size: 24px; line-height: 36px; font-weight: 800; }
+.contact-invite-sent-body > p { position: absolute; top: 183px; left: 58px; width: 275px; margin: 0; color: var(--color-text); font-size: 16px; line-height: 20px; }
+
+.contact-invite-sent-list {
+  position: absolute;
+  top: 247px;
+  right: 24px;
+  left: 24px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  text-align: left;
+}
+
+.contact-invite-sent-list div { min-height: 42px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; font-size: 13px; }
+.contact-invite-sent-list div + div { border-top: 1px solid var(--color-border); }
+.contact-invite-sent-list strong { padding: 2px 8px; border-radius: 10px; color: #0073bf; background: #d8fffa; font-size: 12px; }
+
+.contact-invite-points-note {
+  position: absolute;
+  top: calc(269px + var(--invite-count) * 42px);
+  right: 24px;
+  left: 24px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  color: var(--color-primary);
+  background: #eaf6fd;
+  font-size: 14px;
+}
+
+.contact-invite-again { position: absolute; top: 603px; right: 24px; left: 24px; height: 20px; padding: 0; border: 0; color: #0073bf; background: transparent; font-size: 14px; font-weight: 600; }
+.contact-invite-primary { position: absolute; top: 643px; right: 24px; left: 24px; width: auto; height: 56px; }
+
+.network-remind-button.already-invited:disabled {
+  border-color: #bfe0f5;
+  color: var(--color-primary);
+  background: #eaf6fd;
+  cursor: default;
+  opacity: 1;
+}
+
+/* Contact selection uses the verified VietPay style-guide palette. */
+.contact-select-screen {
+  --santorini-sea: #006fbe;
+  --santorini-sky: #69bde8;
+  --santorini-white: #fffdf8;
+  --santorini-sunset: #efa34a;
+  --santorini-peach: #f6d2b2;
+  background: #fff;
+}
+
+.contact-select-screen .contact-invite-header {
+  background: #fff;
+}
+
+.contact-select-screen .contact-select-body {
+  background: #fff;
+}
+
+.contact-select-screen .contact-select-search {
+  border-color: #dedede;
+  background: #fff;
+  box-shadow: none;
+}
+
+.contact-select-screen .contact-select-all {
+  border-bottom-color: #dedede;
+}
+
+.contact-select-screen .contact-select-all small,
+.contact-select-screen .contact-select-footer p {
+  color: #0d3c7d;
+}
+
+.contact-select-screen .contact-select-list {
+  border-color: #dedede;
+  background: #fff;
+  box-shadow: 0 2px 8px #00000014;
+}
+.contact-select-screen .contact-select-row {
+  background: #fff;
+  transition: background-color 160ms ease, box-shadow 160ms ease;
+}
+
+.contact-select-screen .contact-select-row.selected {
+  background: #eaf6fd;
+  box-shadow: inset 4px 0 0 #0073bf;
+}
+
+.contact-select-screen .contact-select-row:nth-child(3n + 1) .contact-select-avatar {
+  background: #bfe0f5;
+}
+
+.contact-select-screen .contact-select-row:nth-child(3n + 2) .contact-select-avatar {
+  background: #bfe0f5;
+}
+
+.contact-select-screen .contact-select-row:nth-child(3n) .contact-select-avatar {
+  background: #bfe0f5;
+  color: #0d3c7d;
+}
+
+.contact-select-screen .contact-check.checked {
+  border-color: #0073bf;
+  background: #0073bf;
+  box-shadow: none;
+}
+
+.contact-select-screen .contact-select-footer {
+  border-top-color: #dedede;
+  background: #fff;
+}
+
+.contact-select-screen .contact-select-footer button {
+  background: #0d3c7d;
+  box-shadow: none;
+}
+
+.contact-select-screen .contact-select-footer button:disabled {
+  background: #0d3c7d;
+  box-shadow: none;
+}
+
+/* Dashboard neutral/100 softened by 10% toward white. */
+.dashboard-content .profile-card,
+.dashboard-content .dashboard-goal-editor,
+.dashboard-content .checkin-card,
+.dashboard-content .activities {
+  background: #f6f6f5;
+}
+
+/* Today Plan: execution view for the daily targets shown on Dashboard. */
+.today-plan-scroll {
+  position: absolute;
+  inset: 47px 0 70px;
+  overflow-y: auto;
+  background: #fdfbf7;
+  color: var(--color-ink);
+  scrollbar-width: none;
+}
+
+.today-plan-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.today-plan-screen {
+  min-height: 683px;
+}
+
+.today-plan-header {
+  justify-content: flex-end;
+  padding: 0 27px;
+}
+
+.today-plan-body {
+  padding: 10px 24px 24px;
+}
+
+.today-plan-summary {
+  padding: 16px;
+  border: 1px solid #dfdfdf;
+  border-radius: 16px;
+  background: #bfe0f5;
+  box-shadow: 0 2px 8px #00000012;
+}
+
+.today-plan-summary-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.today-plan-summary-heading span {
+  display: block;
+  margin-bottom: 3px;
+  color: #0d3c7d;
+  font-size: 14px;
+  line-height: 16px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+}
+
+.today-plan-summary h1 {
+  margin: 0;
+  color: #0d3c7d;
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 800;
+}
+
+.today-plan-summary-heading > strong {
+  color: #0d3c7d;
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 800;
+}
+
+.today-plan-summary > p {
+  margin: 8px 0 14px;
+  color: #373a36;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.today-plan-progress {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #ffffffb8;
+}
+
+.today-plan-progress > span,
+.today-plan-item-progress > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #0d3c7d;
+}
+
+.today-plan-progress-label {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 7px;
+  color: #696b68;
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.today-plan-progress-label strong {
+  color: #0d3c7d;
+  font-weight: 600;
+}
+
+.today-plan-section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px 0 10px;
+}
+
+.today-plan-section-heading h2 {
+  margin: 0;
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 700;
+}
+
+.today-plan-section-heading span {
+  padding: 4px 9px;
+  border: 1px solid #dfdfdf;
+  border-radius: 999px;
+  color: #696b68;
+  background: #fff;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.today-plan-list {
+  overflow: hidden;
+  border: 1px solid #dfdfdf;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 2px 8px #0000000d;
+}
+
+.today-plan-item {
+  min-height: 92px;
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 11px;
+  padding: 12px;
+  background: #fff;
+}
+
+.today-plan-item + .today-plan-item {
+  border-top: 1px solid #ededed;
+}
+
+.today-plan-item-icon {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #0d3c7d;
+  background: #eaf6fd;
+}
+
+.today-plan-item.invites .today-plan-item-icon {
+  background: #ffe7df;
+}
+
+.today-plan-item.remind .today-plan-item-icon {
+  background: #dff4fa;
+}
+
+.today-plan-item.ppp .today-plan-item-icon {
+  color: #8b681d;
+  background: #fff4d6;
+}
+
+.today-plan-item.sharp .today-plan-item-icon {
+  color: #373a36;
+  background: #e8edff;
+}
+
+.today-plan-item-copy {
+  min-width: 0;
+}
+
+.today-plan-item-copy > div:first-child {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.today-plan-item-copy h3 {
+  margin: 0;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+}
+
+.today-plan-item-copy strong {
+  color: #0d3c7d;
+  font-size: 13px;
+}
+
+.today-plan-item-copy p {
+  margin: 2px 0 7px;
+  overflow: hidden;
+  color: #696b68;
+  font-size: 14px;
+  line-height: 15px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.today-plan-item-progress {
+  height: 5px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #ededed;
+}
+
+.today-plan-item button {
+  min-width: 72px;
+  height: 40px;
+  padding: 0 10px;
+  border: 1px solid #0073bf;
+  border-radius: 10px;
+  color: #0073bf;
+  background: #fff;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.today-plan-item-status {
+  max-width: 72px;
+  padding: 5px 8px;
+  border-radius: 999px;
+  color: #696b68;
+  background: #f5f5f4;
+  text-align: center;
+  font-size: 12px;
+  line-height: 14px;
+  font-weight: 600;
+}
+
+.today-plan-next {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid #dfdfdf;
+  border-radius: 12px;
+  color: #0d3c7d;
+  background: #eaf6fd;
+}
+
+.today-plan-next > div {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.today-plan-next strong {
+  color: #1c1d1b;
+  font-size: 14px;
+}
+
+.today-plan-next span {
+  color: #696b68;
+  font-size: 14px;
+  line-height: 15px;
+}
+
+.today-plan-next button {
+  height: 40px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 10px;
+  color: #fff;
+  background: #0d3c7d;
+  font-size: 14px;
+  font-weight: 600;
+}
+
 
 .reminder-reward-points {
   position: absolute;

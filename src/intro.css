@@ -226,7 +226,7 @@
 
 .intro-estimate-card span {
   color: #0073bf;
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 700;
   letter-spacing: 1.5px;
   text-transform: uppercase;
@@ -301,10 +301,23 @@
   color: #fff;
 }
 
-.intro-stepper output {
+.intro-stepper input {
+  width: 160px;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  color: #1c1d1b;
+  background: transparent;
+  text-align: center;
   font-size: 40px;
   font-weight: 800;
   line-height: 51px;
+}
+
+.intro-stepper input:focus-visible {
+  outline: 2px solid #0073bf;
+  outline-offset: 2px;
+  border-radius: 8px;
 }
 
 /* Reward screens */

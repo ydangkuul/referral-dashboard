@@ -79,7 +79,18 @@ function SequenceFooter({ children, onClick, icon: Icon }) {
 
 function EstimateScreen({ merchants, onMerchantsChange, onNext, onBack, onOpenEstimateGuide }) {
   const [infoOpen, setInfoOpen] = useState(false)
+  const [merchantInput, setMerchantInput] = useState(String(merchants))
   const points = merchants * 1500
+
+  useEffect(() => {
+    setMerchantInput(String(merchants))
+  }, [merchants])
+
+  function handleMerchantInput(event) {
+    const nextValue = event.target.value.replace(/\D/g, '').slice(0, 2)
+    setMerchantInput(nextValue)
+    if (nextValue) onMerchantsChange(Math.min(99, Math.max(1, Number(nextValue))))
+  }
 
   return (
     <div className="intro-screen intro-sequence-screen estimate-screen">
@@ -130,7 +141,18 @@ function EstimateScreen({ merchants, onMerchantsChange, onNext, onBack, onOpenEs
       </div>
       <div className="intro-stepper" role="group" aria-label="Merchants I know">
         <button type="button" aria-label="Decrease merchants" onClick={() => onMerchantsChange(Math.max(1, merchants - 1))}>−</button>
-        <output>{merchants}</output>
+        <input
+          type="text"
+          inputMode="numeric"
+          pattern="[0-9]*"
+          value={merchantInput}
+          aria-label="Number of merchants I know"
+          onChange={handleMerchantInput}
+          onBlur={() => {
+            if (!merchantInput) setMerchantInput(String(merchants))
+          }}
+          onFocus={(event) => event.currentTarget.select()}
+        />
         <button className="primary" type="button" aria-label="Increase merchants" onClick={() => onMerchantsChange(Math.min(99, merchants + 1))}>+</button>
       </div>
 

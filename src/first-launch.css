@@ -1,0 +1,80 @@
+.first-launch-scene-zero {
+  position: absolute;
+  inset: 47px 0 70px;
+  overflow: hidden;
+  color: #1c1d1b;
+  background: #fff;
+  pointer-events: none;
+}
+
+.first-launch-zero-header { display: flex; align-items: center; justify-content: flex-end; height: 44px; padding-right: 27px; }
+.first-launch-zero-header .first-launch-bank { width: 27px; height: 24px; }
+.first-launch-zero-profile { position: relative; width: 368px; height: 163px; margin-left: 11px; border: 1px solid #dfdfdf; border-radius: 10px; background: #f5f5f4; }
+.first-launch-zero-avatar { position: absolute; top: 13px; left: 16px; width: 68px; height: 68px; border-radius: 50%; object-fit: cover; }
+.first-launch-zero-name { position: absolute; top: 28px; left: 154px; display: flex; align-items: center; gap: 12px; white-space: nowrap; }
+.first-launch-zero-name strong { font-size: 17px; line-height: 22px; }
+.first-launch-zero-name span { height: 26px; padding: 4px 10px; border-radius: 6px; background: #d7a44c; font-size: 13px; line-height: 18px; }
+.first-launch-zero-info { position: absolute; top: 8px; right: 8px; width: 16px; height: 16px; }
+.first-launch-zero-points { position: absolute; right: 16px; left: 18px; display: flex; align-items: baseline; height: 34px; }
+.first-launch-zero-points.current { top: 77px; }
+.first-launch-zero-points.mine { top: 112px; }
+.first-launch-zero-points span { font-size: 14px; font-weight: 500; }
+.first-launch-zero-points strong { margin-left: auto; color: #0d3c7d; font-size: 24px; line-height: 33px; letter-spacing: -.2px; }
+.first-launch-zero-points.current strong { color: #2e7d5b; }
+.first-launch-zero-points b { width: 28px; margin-left: 6px; color: #0d3c7d; font-size: 16px; font-weight: 500; }
+
+.first-launch-zero-streak { position: relative; width: 368px; height: 168px; margin: 16px 0 0 11px; border-radius: 16px; background: #bfe0f5; box-shadow: 0 2px 4px #00000014; animation: first-launch-card-in .22s ease-out both; }
+.first-launch-zero-streak-heading { position: absolute; top: 12px; right: 23px; left: 23px; display: flex; align-items: center; justify-content: space-between; }
+.first-launch-zero-streak-heading strong { font-size: 18px; font-weight: 800; line-height: 23px; }
+.first-launch-zero-streak-heading span { color: #696b68; font-size: 14px; font-weight: 600; line-height: 20px; }
+.first-launch-zero-days { position: absolute; top: 49px; right: 23px; left: 23px; display: flex; align-items: flex-start; height: 56px; }
+.first-launch-zero-days > div { display: flex; flex: none; flex-direction: column; align-items: center; gap: 4px; width: 30px; }
+.first-launch-zero-days > div > span { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: #fff; }
+.first-launch-zero-days > div > span.checked { background: #0d3c7d; }
+.first-launch-zero-days > div > span img { width: 14px; height: 14px; }
+.first-launch-zero-days > div > b { color: #696b68; font-size: 14px; line-height: 18px; }
+.first-launch-zero-days > i { flex: 1; height: 0; margin-top: 15px; border-top: 1.5px dashed #0073bf; }
+.first-launch-zero-streak button { position: absolute; bottom: 17px; left: 23px; width: 322px; height: 42px; border: 0; border-radius: 10px; background: #0d3c7d; color: #fff; font-size: 14px; font-weight: 700; }
+
+.first-launch-zero-goal { position: relative; overflow: hidden; width: 368px; height: 131px; margin: 16px 0 0 11px; border: 1px solid #dfdfdf; border-radius: 10px; background: #f5f5f4; }
+.first-launch-zero-goal-title { position: absolute; top: 17px; left: 16px; display: flex; align-items: center; gap: 5px; font-size: 16px; font-weight: 500; }
+.first-launch-zero-goal-title img { width: 16px; height: 16px; }
+.first-launch-zero-goal-value { position: absolute; top: 47px; left: 16px; display: flex; align-items: center; width: 335px; height: 61px; padding: 0 12px; border: 1px solid #dfdfdf; border-radius: 10px; background: #fff; }
+.first-launch-zero-goal-value strong { color: #0d3c7d; font-size: 28px; font-weight: 600; line-height: 36px; }
+.first-launch-zero-goal-value > span { margin-left: 8px; color: #696b68; font-size: 14px; }
+.first-launch-zero-goal-value button { display: flex; align-items: center; justify-content: center; gap: 7px; width: 83px; height: 36px; margin-left: auto; border: 0; border-radius: 12px; background: #bfe0f5; color: #000; font-size: 16px; font-weight: 600; }
+.first-launch-zero-goal-value button img { width: 17px; height: 18px; }
+.first-launch-zero-goal-overlay { position: absolute; inset: 0; background: #121212; opacity: .2; }
+
+.first-launch-dashboard { position: absolute; inset: 48px 0 70px; overflow: hidden; padding: 0 10px 14px; color: var(--color-ink); background: #fff; }
+.first-launch-dashboard-header { display: flex; align-items: center; justify-content: flex-end; height: 48px; padding: 0 8px; color: var(--color-primary); }
+.first-launch-bank { display: block; width: 28px; height: 25px; }
+.first-launch-profile { position: relative; min-height: 86px; padding: 8px 10px 8px 55px; border-bottom: 1px solid var(--color-border); font-size: 11px; }
+.first-launch-avatar { position: absolute; top: 9px; left: 8px; display: grid; place-items: center; width: 39px; height: 39px; border-radius: 50%; background: #a9dcf7; color: #fff; }
+.first-launch-profile > strong { font-size: 13px; }
+.first-launch-tier { display: inline-block; margin-left: 8px; padding: 3px 7px; border-radius: 4px; background: #dca94d; color: #1d1d1d; font-size: 10px; }
+.first-launch-point-row { display: flex; gap: 8px; margin-top: 5px; color: #6b6d70; }
+.first-launch-point-row strong { color: var(--color-primary); }
+.first-launch-goal-card { margin-top: 10px; padding: 11px; border: 1px solid var(--color-border); border-radius: 9px; background: var(--color-surface-card); }
+.first-launch-goal-heading,.first-launch-bounds { display: flex; align-items: center; justify-content: space-between; }
+.first-launch-goal-heading strong { font-size: 13px; }
+.first-launch-bounds { color: var(--color-text-muted); font-size: 10px; }
+.first-launch-goal-heading button { display: flex; align-items: center; gap: 4px; padding: 3px 7px; border: 1px solid var(--color-border); border-radius: 5px; background: #fff; color: var(--color-ink); font-size: 10px; }
+.first-launch-goal-amount { display: flex; align-items: center; gap: 6px; margin-top: 8px; padding: 10px; border-radius: 6px; background: #eaf6fd; }
+.first-launch-goal-amount strong { color: var(--color-primary); font-size: 23px; }
+.first-launch-goal-amount span { color: var(--color-text-muted); font-size: 10px; }
+.first-launch-slider { height: 5px; margin-top: 12px; border-radius: 5px; background: #e2e3e5; }
+.first-launch-slider span { display: block; width: 28%; height: 100%; border-radius: 5px; background: var(--color-slider); }
+.first-launch-bounds { margin-top: 4px; }
+.first-launch-months { display: flex; gap: 6px; margin-top: 8px; }
+.first-launch-months span { position: relative; flex: 1; padding: 8px 2px; border: 1px solid var(--color-border); border-radius: 5px; text-align: center; font-size: 9px; }
+.first-launch-months span.selected { border-color: var(--color-primary); color: var(--color-primary); }
+.first-launch-months svg { position: absolute; top: 3px; right: 3px; }
+.first-launch-targets { display: flex; margin-top: 8px; border: 1px solid var(--color-border); border-radius: 6px; }
+.first-launch-targets > span { display: flex; flex: 1; align-items: center; justify-content: center; gap: 7px; padding: 7px; border-right: 1px solid var(--color-border); }
+.first-launch-targets > span:last-child { border-right: 0; }
+.first-launch-targets strong { color: var(--color-primary); font-size: 19px; }
+.first-launch-targets small { color: var(--color-text-muted); font-size: 8px; line-height: 10px; }
+.first-launch-invite { position: absolute; right: 20px; bottom: 12px; left: 20px; width: calc(100% - 40px); height: 44px; border: 0; border-radius: 6px; background: var(--color-primary); color: #fff; font-size: 14px; font-weight: 600; }
+
+@keyframes first-launch-card-in { from { opacity: 0; transform: translateY(-544px); } to { opacity: 1; transform: translateY(0); } }

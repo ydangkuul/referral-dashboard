@@ -122,7 +122,7 @@ function ReturningSuccessScreen({ onNext }) {
   )
 }
 
-function SuccessScreen({ onNext }) {
+function SuccessScreen({ onNext, rewardPoints = 5000 }) {
   return (
     <div className="checkin-flow-scroll success">
       <header className="checkin-flow-header">
@@ -134,7 +134,10 @@ function SuccessScreen({ onNext }) {
 
       <div className="checkin-success-content">
         <div className="checkin-points-display">
-          <img src="/images/points-5000-figma.png" alt="5,000 points" />
+          <img
+            src={rewardPoints === 1000 ? '/images/intro-reward-1000.png' : '/images/points-5000-figma.png'}
+            alt={`${rewardPoints.toLocaleString('en-US')} points`}
+          />
         </div>
 
         <div className="checkin-success-character">
@@ -155,7 +158,7 @@ function SuccessScreen({ onNext }) {
   )
 }
 
-export default function CheckInFlow({ launchMode = 'first', onClose, onStageChange }) {
+export default function CheckInFlow({ launchMode = 'first', rewardPoints = 5000, onClose, onBack = onClose, onStageChange }) {
   const [screen, setScreen] = useState('checkin')
 
   useEffect(() => {
@@ -165,8 +168,8 @@ export default function CheckInFlow({ launchMode = 'first', onClose, onStageChan
   if (screen === 'success') {
     return launchMode === 'returning'
       ? <ReturningSuccessScreen onNext={onClose} />
-      : <SuccessScreen onNext={onClose} />
+      : <SuccessScreen onNext={onClose} rewardPoints={rewardPoints} />
   }
 
-  return <CheckInScreen onCheckIn={() => setScreen('success')} onBack={onClose} />
+  return <CheckInScreen onCheckIn={() => setScreen('success')} onBack={onBack} />
 }
